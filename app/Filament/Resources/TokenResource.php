@@ -35,7 +35,7 @@ class TokenResource extends Resource
                 Forms\Components\Select::make('package_id')
                     ->label('Package')
                     ->required()
-                    ->options(\App\Models\Package::pluck('name', 'id')->toArray()),
+                    ->options(\App\Models\Package::pluck('title', 'id')->toArray()),
                 Forms\Components\TextInput::make('original_json')
                     ->label('Original Json')
                     ->json()
@@ -65,7 +65,7 @@ class TokenResource extends Resource
                     ->label('Game')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('package.name')
+                Tables\Columns\TextColumn::make('package.title')
                     ->label('Package')
                     ->searchable()
                     ->sortable(),
