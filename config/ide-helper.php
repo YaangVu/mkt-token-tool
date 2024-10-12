@@ -308,7 +308,7 @@ return [
     |
     */
     'post_migrate' => [
-         'ide-helper:models --smart-reset',
+         'ide-helper:models --reset',
     ],
 
 ];

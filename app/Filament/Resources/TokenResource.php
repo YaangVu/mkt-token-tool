@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TokenResource\Pages;
-use App\Filament\Resources\TokenResource\RelationManagers;
 use App\Models\Token;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -69,6 +68,9 @@ class TokenResource extends Resource
                     ->label('Package')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('export_history_id')
+                    ->label('Export History')
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -78,7 +80,7 @@ class TokenResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->requiresConfirmation(),
                 ]),
             ]);
     }

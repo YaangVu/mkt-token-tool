@@ -6,10 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "filament/actions": "^3.2",
         "filament/filament": "^3.2",
-        "laravel/framework": "^11.9",
+        "filament/notifications": "^3.2",
+        "laravel/framework": "^v11.27.2",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.1",

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -23,10 +23,10 @@ use Illuminate\Support\Carbon;
  * @property string|null $type
  * @property int $user_id
  * @property int $game_id
- * @property-read Game $game
- * @property-read Collection<int, Token> $tokens
+ * @property-read \App\Models\Game $game
+ * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read User $user
+ * @property-read \App\Models\User $user
  * @method static Builder|Package newModelQuery()
  * @method static Builder|Package newQuery()
  * @method static Builder|Package query()
@@ -54,6 +54,30 @@ class Package extends Model
     public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
+    }
+
+    // Export tokens
+    public function exportTokens(int $quantity, Package $package): TokenExportHistory
+    {
+        // Get tokens that have not been exported yet
+        $tokens = $this->tokens()
+            ->whereNull('export_history_id')
+            ->orderBy('created_at')
+            ->limit($quantity)
+            ->get();
+
+        // Create a new export history
+        $exportHistory = TokenExportHistory::create([
+            'user_id' => auth()->id(),
+            'game_id' => $package->game_id,
+            'package_id' => $package->id,
+            'quantity' => $quantity,
+        ]);
+
+        // Update the tokens to mark them as exported
+        Token::whereIn('id', $tokens->pluck('id'))->update(['export_history_id' => $exportHistory->id]);
+
+        return $exportHistory;
     }
 
     public function tokens(): HasMany
