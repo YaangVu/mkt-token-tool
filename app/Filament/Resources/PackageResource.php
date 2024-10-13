@@ -16,6 +16,11 @@ class PackageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
 
+    public static function getNavigationSort(): ?int
+    {
+        return -2;
+    }
+
     public static function table(Table $table): Table
     {
         return $table

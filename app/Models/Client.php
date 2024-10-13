@@ -30,5 +30,7 @@ class Client extends Model
 {
     use HasApiTokens;
 
+    protected $hidden = ['password'];
+
     protected $fillable = ['username', 'password'];
 }

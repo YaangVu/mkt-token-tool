@@ -17,6 +17,16 @@ class ClientResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    public static function getNavigationLabel(): string
+    {
+        return 'Clients';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 1;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -27,9 +37,10 @@ class ClientResource extends Resource
 
                 Forms\Components\TextInput::make('password')
                     ->label('Password')
+                    ->placeholder('********')
                     ->password()
                     ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
-                    ->dehydrated(fn(?string $state, ?string $operation): bool => !Hash::isHashed($state) || $operation === 'create')
+                    ->dehydrated(fn(?string $state): bool => filled($state))
                     ->required(fn(string $operation): bool => $operation === 'create'),
             ]);
     }

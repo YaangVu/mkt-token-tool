@@ -15,7 +15,17 @@ class TokenImportResource extends Resource
 {
     protected static ?string $model = TokenImport::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-up-on-square-stack';
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Quản lý nhập';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return -1;
+    }
 
     public static function table(Table $table): Table
     {

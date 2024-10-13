@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
+use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,12 +17,27 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    public static function getNavigationLabel(): string
+    {
+        return 'Super Users';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 3;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+
+                Forms\Components\TextInput::make('username')
+                    ->label('Username')
+                    ->required()
+                    ->placeholder('johndoe'),
                 Forms\Components\TextInput::make('name')
-                    ->label('Name')
+                    ->label('Full Name')
                     ->required()
                     ->placeholder('John Doe'),
                 Forms\Components\TextInput::make('email')
@@ -31,7 +47,8 @@ class UserResource extends Resource
                     ->placeholder(' [email protected]'),
                 Forms\Components\TextInput::make('password')
                     ->label('Password')
-                    ->required()
+                    ->required(fn(string $operation): bool => $operation === 'create')
+                    ->dehydrated(fn(?string $state): bool => filled($state))
                     ->placeholder('********')
                     ->password()
                     ->autocomplete('new-password'),
@@ -40,16 +57,20 @@ class UserResource extends Resource
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('username')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Username'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable()
-                    ->label('Name'),
+                    ->label('Full Name'),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->sortable()

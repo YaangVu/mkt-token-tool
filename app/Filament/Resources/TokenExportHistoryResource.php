@@ -18,6 +18,16 @@ class TokenExportHistoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-down-on-square-stack';
 
+    public static function getNavigationLabel(): string
+    {
+        return 'Quản lý xả';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 0;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
