@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
-class AuthController extends Controller
+class ClientAuthController extends Controller
 {
     public function signIn(Request $request)
     {
@@ -16,7 +17,7 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = User::whereUsername($request->account)->first();
+        $user = Client::whereUsername($request->account)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([

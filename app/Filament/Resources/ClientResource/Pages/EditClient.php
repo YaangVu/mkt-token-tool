@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\GameResource\Pages;
+namespace App\Filament\Resources\ClientResource\Pages;
 
-use App\Filament\Resources\GameResource;
+use App\Filament\Resources\ClientResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditGame extends EditRecord
+class EditClient extends EditRecord
 {
-    protected static string $resource = GameResource::class;
+    protected static string $resource = ClientResource::class;
 
     protected function getHeaderActions(): array
     {

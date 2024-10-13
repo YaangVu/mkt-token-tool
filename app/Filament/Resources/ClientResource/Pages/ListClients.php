@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\GameResource\Pages;
+namespace App\Filament\Resources\ClientResource\Pages;
 
-use App\Filament\Resources\GameResource;
+use App\Filament\Resources\ClientResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListGames extends ListRecords
+class ListClients extends ListRecords
 {
-    protected static string $resource = GameResource::class;
+    protected static string $resource = ClientResource::class;
 
     protected function getHeaderActions(): array
     {

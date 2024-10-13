@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('tokens', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('token');
+            $table->string('purchase_token');
             $table->json('original_json')->nullable();
             $table->text('signature')->nullable();
             $table->string('order_id')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
         });
     }

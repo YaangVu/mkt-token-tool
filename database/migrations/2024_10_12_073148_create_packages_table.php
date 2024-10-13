@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('code');
-            $table->string('title');
+            $table->string('title')->nullable();
+            $table->string('name')->nullable();
             $table->decimal('price', 10, 2);
-            $table->string('currency')->default('USD')->nullable();
-            $table->string('type')->nullable();
+            $table->string('price_currency_code')->default('USD')->nullable();
+            $table->string('product_id')->unique();
+            $table->string('game_name')->nullable();
+            $table->string('type')->nullable()->default('inapp');
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('game_id')->references('id')->on('games');
         });
     }
 

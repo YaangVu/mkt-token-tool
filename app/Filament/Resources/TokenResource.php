@@ -14,7 +14,7 @@ class TokenResource extends Resource
 {
     protected static ?string $model = Token::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
     public static function form(Form $form): Form
     {
@@ -27,10 +27,6 @@ class TokenResource extends Resource
                 Forms\Components\Hidden::make('user_id')
                     ->default(auth()->id())
                     ->required(),
-                Forms\Components\Select::make('game_id')
-                    ->label('Game')
-                    ->required()
-                    ->options(\App\Models\Game::pluck('name', 'id')->toArray()),
                 Forms\Components\Select::make('package_id')
                     ->label('Package')
                     ->required()
@@ -52,20 +48,17 @@ class TokenResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('token')
-                    ->label('Token')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('User')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('game.name')
-                    ->label('Game')
+
+                Tables\Columns\TextColumn::make('client.username')
+                    ->label('Client')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('package.title')
                     ->label('Package')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('purchase_token')
+                    ->label('Token')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('export_history_id')
@@ -76,7 +69,8 @@ class TokenResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+//                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -97,7 +91,7 @@ class TokenResource extends Resource
         return [
             'index' => Pages\ListTokens::route('/'),
             'create' => Pages\CreateToken::route('/create'),
-            'edit' => Pages\EditToken::route('/{record}/edit'),
+//            'edit' => Pages\EditToken::route('/{record}/edit'),
         ];
     }
 }

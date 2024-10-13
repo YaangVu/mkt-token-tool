@@ -11,31 +11,32 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property string $code
- * @property string $title
+ * @property string|null $title
+ * @property string|null $name
  * @property string $price
- * @property string|null $currency
+ * @property string|null $price_currency_code
+ * @property string $product_id
+ * @property string|null $game_name
  * @property string|null $type
  * @property int $user_id
- * @property int $game_id
- * @property-read \App\Models\Game $game
  * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
  * @property-read \App\Models\User $user
  * @method static Builder|Package newModelQuery()
  * @method static Builder|Package newQuery()
  * @method static Builder|Package query()
- * @method static Builder|Package whereCode($value)
  * @method static Builder|Package whereCreatedAt($value)
- * @method static Builder|Package whereCurrency($value)
- * @method static Builder|Package whereGameId($value)
+ * @method static Builder|Package whereGameName($value)
  * @method static Builder|Package whereId($value)
+ * @method static Builder|Package whereName($value)
  * @method static Builder|Package wherePrice($value)
+ * @method static Builder|Package wherePriceCurrencyCode($value)
+ * @method static Builder|Package whereProductId($value)
  * @method static Builder|Package whereTitle($value)
  * @method static Builder|Package whereType($value)
  * @method static Builder|Package whereUpdatedAt($value)
@@ -44,16 +45,11 @@ use Illuminate\Support\Carbon;
  */
 class Package extends Model
 {
-    protected $fillable = ['price', 'code', 'user_id', 'game_id', 'title', 'currency', 'type'];
+    protected $fillable = ['title', 'name', 'price', 'price_currency_code', 'product_id', 'game_name', 'type', 'user_id'];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function game(): BelongsTo
-    {
-        return $this->belongsTo(Game::class);
     }
 
     // Export tokens
@@ -69,7 +65,6 @@ class Package extends Model
         // Create a new export history
         $exportHistory = TokenExportHistory::create([
             'user_id' => auth()->id(),
-            'game_id' => $package->game_id,
             'package_id' => $package->id,
             'quantity' => $quantity,
         ]);

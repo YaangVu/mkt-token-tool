@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Package;
 use App\Models\Token;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -34,12 +35,16 @@ readonly class TokenExport implements FromCollection, WithHeadings, WithMapping
         ];
     }
 
+    /**
+     * @param Token $row
+     * @return array
+     */
     public function map($row): array
     {
         return [
-            $row->game->name,
-            "",
-            $row->token,
+            $row->package->game_name,
+            $row->package->product_id,
+            $row->purchase_token,
             $row->created_at,
         ];
     }

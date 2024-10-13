@@ -16,7 +16,7 @@ class TokenExportHistoryResource extends Resource
 {
     protected static ?string $model = TokenExportHistory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-down-on-square-stack';
 
     public static function form(Form $form): Form
     {
@@ -79,7 +79,8 @@ class TokenExportHistoryResource extends Resource
                             ->title('Restore successfully')
                             ->success()
                             ->send();
-                    }),
+                    })
+                    ->requiresConfirmation(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
