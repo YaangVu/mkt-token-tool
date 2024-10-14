@@ -45,9 +45,10 @@ RUN docker-php-ext-install \
     intl \
     sockets \
     zip \
+    pdo \
+    pdo_mysql \
     pdo_pgsql \
     bcmath
-#    pdo \
 #    pcntl
 #    xml \
 #    bz2 \
@@ -71,8 +72,7 @@ ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
 
 # Install PHP DI
 COPY . .
-RUN cp -n .env.example .env
-RUN composer install --no-dev
+RUN composer install
 
 EXPOSE 8000
 CMD ["/usr/local/bin/start"]
