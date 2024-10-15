@@ -8,7 +8,7 @@ queue=${QUEUE:-default}
 chmod -R 777 storage
 
 echo "Migrate database"
-php artisan module:migrate --force "$service_name"
+php artisan --force "$service_name"
 
 # Re-optimize Laravel App
 php artisan optimize
