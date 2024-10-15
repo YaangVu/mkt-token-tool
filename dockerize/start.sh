@@ -4,14 +4,11 @@ set -e
 
 role=${CONTAINER_ROLE:-app}
 queue=${QUEUE:-default}
-service_name=${SERVICE_NAME:-null}
 
 chmod -R 777 storage
 
-if [ "$service_name" != null ]; then
-  echo "Migrate database"
-  php artisan module:migrate --force "$service_name"
-fi
+echo "Migrate database"
+php artisan module:migrate --force "$service_name"
 
 # Re-optimize Laravel App
 php artisan optimize

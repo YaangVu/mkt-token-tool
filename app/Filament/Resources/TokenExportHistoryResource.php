@@ -6,11 +6,15 @@ use App\Exports\TokenExport;
 use App\Filament\Resources\TokenExportHistoryResource\Pages;
 use App\Models\Token;
 use App\Models\TokenExportHistory;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 
 class TokenExportHistoryResource extends Resource
 {
@@ -28,14 +32,14 @@ class TokenExportHistoryResource extends Resource
         return 0;
     }
 
-    public static function form(Form $form): Form
+    public static function canCreate(): bool
     {
-        return $form
-            ->schema([
-                //
-            ]);
+        return false;
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -47,7 +51,7 @@ class TokenExportHistoryResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('User'),
-                Tables\Columns\TextColumn::make('game.name')
+                Tables\Columns\TextColumn::make('package.game_name')
                     ->searchable()
                     ->sortable()
                     ->label('Game'),
@@ -65,8 +69,29 @@ class TokenExportHistoryResource extends Resource
                     ->label('Created At'),
             ])
             ->filters([
-                //
-            ])
+                Tables\Filters\Filter::make('created_from')
+                    ->form([
+                        DatePicker::make('created_from')->default(Carbon::now()->subDays(7)),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['created_from'],
+                            fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                        );
+                    }),
+                Tables\Filters\Filter::make('created_until')
+                    ->form([
+                        DatePicker::make('created_until')->default(Carbon::now()),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['created_until'],
+                            fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                        );
+                    })
+            ], layout: FiltersLayout::AboveContent)
+
+            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\Action::make('download')
                     ->label('Download')
@@ -97,6 +122,15 @@ class TokenExportHistoryResource extends Resource
                 ]),
             ])
             ->headerActions([
+                //
+            ])
+            ->defaultSort('created_at', 'desc');
+    }
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
                 //
             ]);
     }

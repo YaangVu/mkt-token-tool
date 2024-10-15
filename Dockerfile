@@ -1,4 +1,26 @@
+# Stage 1: Build stage
+FROM composer:2 AS build
+
+LABEL maintainer="yaangvu@gmail.com"
+
+ENV APP_ROOT /var/www/html
+ENV APP_TIMEZONE UTC
+
+WORKDIR ${APP_ROOT}
+
+# Set TimeZone
+ENV TZ=${APP_TIMEZONE}
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Copy the application files
+COPY . .
+
+# Install PHP dependencies
+RUN composer install --ignore-platform-req=ext-intl --ignore-platform-req=ext-gd
+
+# Stage 2: Production stage
 FROM php:8.2-cli
+
 LABEL maintainer="yaangvu@gmail.com"
 
 ENV APP_ROOT /var/www/html
@@ -23,7 +45,7 @@ RUN echo "opcache.max_accelerated_files=32531" >> "$PHP_INI_DIR/php.ini"
 RUN echo "opcache.validate_timestamps=0" >> "$PHP_INI_DIR/php.ini"
 RUN echo "opcache.fast_shutdown=0" >> "$PHP_INI_DIR/php.ini"
 
-# Add Production Dependencies. Thoes are necessary
+# Add Production Dependencies. Those are necessary
 RUN apt update -y
 RUN apt install -y \
     libpq-dev \
@@ -45,34 +67,18 @@ RUN docker-php-ext-install \
     intl \
     sockets \
     zip \
-    pdo \
-    pdo_mysql \
     pdo_pgsql \
+    pdo_mysql \
     bcmath
-#    pcntl
-#    xml \
-#    bz2 \
-#    exif \
 
-# Install Mongodb
-RUN pecl install mongodb redis \
-    && docker-php-ext-enable mongodb redis.so
+# Copy the application files from the build stage
+COPY --from=build ${APP_ROOT} ${APP_ROOT}
 
+# Copy the start script
 COPY dockerize/start.sh /usr/local/bin/start
 
 # Run the command on container startup
 RUN chmod u+x /usr/local/bin/start
-
-# Install Composer.
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && ln -s $(composer config --global home) /root/composer
-ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
-
-#USER www-data
-
-# Install PHP DI
-COPY . .
-RUN composer install
 
 EXPOSE 8000
 CMD ["/usr/local/bin/start"]

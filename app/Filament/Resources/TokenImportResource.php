@@ -10,6 +10,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class TokenImportResource extends Resource
 {
@@ -19,12 +20,17 @@ class TokenImportResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return 'Quản lý nhập';
+        return 'Quản lý nạp';
     }
 
     public static function getNavigationSort(): ?int
     {
         return -1;
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
     }
 
     public static function table(Table $table): Table
@@ -52,15 +58,18 @@ class TokenImportResource extends Resource
                     ->label('Price')
                     ->prefix('$ ')
                     ->alignEnd(),
+
+                Tables\Columns\TextColumn::make('tokens_count')
+                    ->label('Quantity')
+                    ->counts(['tokens' => fn($query) => $query->whereNull('export_history_id')])
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('total')
+                    ->label('Thành tiền')
+                    ->getStateUsing(fn($record) => $record->price * $record->tokens_count)
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('price_currency_code')
                     ->searchable()
                     ->label('Currency Code'),
-                Tables\Columns\TextColumn::make('tokens_count')
-                    ->label('Quantity')
-                    ->counts(['tokens' => function ($query) {
-                        $query->whereNull('export_history_id');
-                    }])
-                    ->sortable(),
             ])
             ->filters([
                 //
@@ -101,7 +110,7 @@ class TokenImportResource extends Resource
                             ->success()
                             ->send();
                     })
-                    ,
+                ,
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -110,7 +119,12 @@ class TokenImportResource extends Resource
             ])
             ->headerActions([
                 //
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc')
+            ->modifyQueryUsing(function (Builder $query) {
+                $query->whereHas('tokens');
+            });
+
     }
 
     public static function form(Form $form): Form
