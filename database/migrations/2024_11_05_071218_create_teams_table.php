@@ -14,6 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->timestamps();
             $table->string('name');
+            $table->boolean('is_active')->default(false);
+            $table->timestamp('activated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
         });
 
         Schema::create('teamables', function (Blueprint $table) {

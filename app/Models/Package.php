@@ -3,15 +3,17 @@
 namespace App\Models;
 
 use Eloquent;
+use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -24,6 +26,10 @@ use Illuminate\Support\Carbon;
  * @property string|null $game_name
  * @property string|null $type
  * @property int $user_id
+ * @property-read Collection<int, \App\Models\Team> $team
+ * @property-read int|null $team_count
+ * @property-read Collection<int, \App\Models\Team> $teams
+ * @property-read int|null $teams_count
  * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
  * @property-read \App\Models\User $user
@@ -64,10 +70,12 @@ class Package extends Model
 
         // Create a new export history
         $exportHistory = TokenExportHistory::create([
-            'user_id' => auth()->id(),
+            'created_by' => auth()->id(),
             'package_id' => $package->id,
             'quantity' => $quantity,
         ]);
+
+        $exportHistory->teams()->attach(Filament::getTenant(), ['created_at' => now(), 'updated_at' => now()]);
 
         // Update the tokens to mark them as exported
         Token::whereIn('id', $tokens->pluck('id'))->update(['export_history_id' => $exportHistory->id]);
@@ -80,7 +88,12 @@ class Package extends Model
         return $this->hasMany(Token::class);
     }
 
-    public function team(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    public function team(): MorphToMany
+    {
+        return $this->teams();
+    }
+
+    public function teams(): MorphToMany
     {
         return $this->morphToMany(Team::class, 'teamable');
     }

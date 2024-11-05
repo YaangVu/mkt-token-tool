@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filament\Pages\Tenancy;
 
 use App\Models\Team;
@@ -24,9 +25,9 @@ class RegisterTeam extends RegisterTenant
 
     protected function handleRegistration(array $data): Team
     {
-        $team = Team::create($data);
+        $team = Team::create([...$data, ...['created_by' => auth()->user()->id]]);
 
-        $team->members()->attach(auth()->user());
+        $team->users()->attach(auth()->user(), ['created_at' => now(), 'updated_at' => now()]);
 
         return $team;
     }

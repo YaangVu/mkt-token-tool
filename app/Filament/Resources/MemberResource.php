@@ -2,42 +2,50 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\MemberResource\Pages;
+use App\Models\Member;
 use App\Models\User;
 use Exception;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
-class UserResource extends Resource
+class MemberResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = Member::class;
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
-
-    protected static ?string $navigationGroup = 'Settings';
+//    public static function getEloquentQuery(): Builder
+//    {
+//        $query = User::query();
+//
+//        if (
+//            static::isScopedToTenant() &&
+//            ($tenant = Filament::getTenant())
+//        ) {
+//            static::scopeEloquentQueryToTenant($query, $tenant);
+//        }
+//
+//        return $query;
+//    }
 
     public static function getNavigationLabel(): string
     {
-        return 'Super Users';
-    }
-
-    public static function getNavigationSort(): ?int
-    {
-        return 3;
+        return 'Quản lý thành viên';
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-
                 Forms\Components\TextInput::make('username')
                     ->label('Username')
                     ->required()
-                    ->placeholder('johndoe'),
+                    ->placeholder('john_doe'),
                 Forms\Components\TextInput::make('name')
                     ->label('Full Name')
                     ->required()
@@ -108,11 +116,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListMembers::route('/'),
+            'create' => Pages\CreateMember::route('/create'),
+            'edit' => Pages\EditMember::route('/{record}/edit'),
         ];
     }
-
-//    protected static bool $isScopedToTenant = false;
 }

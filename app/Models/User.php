@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -21,7 +22,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
@@ -34,6 +35,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property Carbon|null $updated_at
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read Collection<int, \App\Models\Team> $team
+ * @property-read int|null $team_count
  * @property-read Collection<int, \App\Models\Team> $teams
  * @property-read int|null $teams_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
@@ -90,19 +93,19 @@ class User extends Authenticatable implements HasTenants, FilamentUser
         return $this->teams()->whereKey($tenant)->exists();
     }
 
+    public function teams(): MorphToMany
+    {
+        return $this->morphToMany(Team::class, 'teamable');
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return true; //TODO
     }
 
-    public function attach(Team $team): void
+    public function team(): MorphToMany
     {
-        $this->teams()->attach($team);
-    }
-
-    public function teams(): \Illuminate\Database\Eloquent\Relations\MorphToMany
-    {
-        return $this->morphToMany(Team::class, 'teamable');
+        return $this->teams();
     }
 
     /**
@@ -118,8 +121,4 @@ class User extends Authenticatable implements HasTenants, FilamentUser
         ];
     }
 
-    public function team(): \Illuminate\Database\Eloquent\Relations\MorphToMany
-    {
-        return $this->morphToMany(Team::class, 'teamable');
-    }
 }

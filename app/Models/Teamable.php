@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- *
+ * 
  *
  * @property-read Model|\Eloquent $teamable
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Teamable newModelQuery()

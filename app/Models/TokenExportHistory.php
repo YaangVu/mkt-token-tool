@@ -11,32 +11,36 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property int $user_id
+ * @property int $created_by
  * @property int $package_id
  * @property int $quantity
  * @property-read \App\Models\Package $package
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $team
+ * @property-read int|null $team_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
+ * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @method static Builder<static>|TokenExportHistory newModelQuery()
  * @method static Builder<static>|TokenExportHistory newQuery()
  * @method static Builder<static>|TokenExportHistory query()
  * @method static Builder<static>|TokenExportHistory whereCreatedAt($value)
+ * @method static Builder<static>|TokenExportHistory whereCreatedBy($value)
  * @method static Builder<static>|TokenExportHistory whereId($value)
  * @method static Builder<static>|TokenExportHistory wherePackageId($value)
  * @method static Builder<static>|TokenExportHistory whereQuantity($value)
  * @method static Builder<static>|TokenExportHistory whereUpdatedAt($value)
- * @method static Builder<static>|TokenExportHistory whereUserId($value)
  * @mixin Eloquent
  */
 class TokenExportHistory extends Model
 {
-    protected $fillable = ['user_id', 'package_id', 'quantity'];
+    protected $fillable = ['created_by', 'package_id', 'quantity'];
 
     public function user(): BelongsTo
     {
@@ -53,7 +57,12 @@ class TokenExportHistory extends Model
         return $this->hasMany(Token::class, 'export_history_id', 'id');
     }
 
-      public function team(): MorphToMany
+    public function team(): MorphToMany
+    {
+        return $this->teams();
+    }
+
+    public function teams(): MorphToMany
     {
         return $this->morphToMany(Team::class, 'teamable');
     }

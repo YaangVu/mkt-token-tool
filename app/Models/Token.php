@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -25,6 +25,10 @@ use Illuminate\Support\Carbon;
  * @property int|null $export_history_id
  * @property-read \App\Models\User $owner
  * @property-read \App\Models\Package $package
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $team
+ * @property-read int|null $team_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
+ * @property-read int|null $teams_count
  * @property-read \App\Models\User $user
  * @method static Builder<static>|Token newModelQuery()
  * @method static Builder<static>|Token newQuery()
@@ -67,6 +71,11 @@ class Token extends Model
     }
 
     public function team(): MorphToMany
+    {
+        return $this->teams();
+    }
+
+    public function teams(): MorphToMany
     {
         return $this->morphToMany(Team::class, 'teamable');
     }

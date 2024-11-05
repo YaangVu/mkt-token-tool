@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('token_export_histories', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
         });
