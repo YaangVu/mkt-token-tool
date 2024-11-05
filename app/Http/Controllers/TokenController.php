@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Package;
 use App\Models\Token;
 use Illuminate\Http\Request;
@@ -38,7 +37,7 @@ class TokenController extends Controller
             'signature' => $validatedData['mSignature'],
             'original_json' => json_encode($validatedData['mOriginalJson']),
             'sku' => $validatedData['sku'],
-            'client_id' => Client::first()->id,
+            'client_id' => 1, // TODO: Replace with actual client ID
             'package_id' => $package->id,
         ]);
 

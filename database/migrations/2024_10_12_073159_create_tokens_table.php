@@ -18,7 +18,8 @@ return new class extends Migration
             $table->json('original_json')->nullable();
             $table->text('signature')->nullable();
             $table->string('order_id')->nullable();
-            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('owner_id')->constrained()->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->constrained()->on('users')->onDelete('cascade');
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
         });
     }

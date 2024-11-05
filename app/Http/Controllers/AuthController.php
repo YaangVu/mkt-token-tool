@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
-class ClientAuthController extends Controller
+class AuthController extends Controller
 {
-    public function signIn(Request $request)
+    public function clientSignIn(Request $request)
     {
         $request->validate([
-            'account' => 'required|string',
+            'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $user = Client::whereUsername($request->account)->first();
+        $user = User::whereUsername($request->username)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
@@ -32,7 +31,7 @@ class ClientAuthController extends Controller
         return response()->json([
             'code' => 200,
             'data' => [
-                'account' => $user->email,
+                'username' => $user->username,
                 'token' => $token,
                 'childStatus' => 0, // Example value, adjust as needed
                 'versions' => "1.0", // Example value, adjust as needed

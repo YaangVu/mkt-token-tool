@@ -54,8 +54,8 @@ class TokenResource extends Resource
         return $table
             ->columns([
 
-                Tables\Columns\TextColumn::make('client.username')
-                    ->label('Client')
+                Tables\Columns\TextColumn::make('owner.username')
+                    ->label('Owner')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('package.title')

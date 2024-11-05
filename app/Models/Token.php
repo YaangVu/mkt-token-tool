@@ -40,11 +40,11 @@ use Illuminate\Support\Carbon;
  */
 class Token extends Model
 {
-    protected $fillable = ['purchase_token', 'original_json', 'signature', 'order_id', 'client_id', 'package_id', 'export_history_id'];
+    protected $fillable = ['purchase_token', 'original_json', 'signature', 'order_id', 'owner_id', 'package_id', 'export_history_id', 'created_by'];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function package(): BelongsTo
@@ -57,8 +57,8 @@ class Token extends Model
         return $this->export_history_id !== null;
     }
 
-    public function client(): BelongsTo
+    public function owner(): BelongsTo
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }
