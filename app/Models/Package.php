@@ -3,15 +3,17 @@
 namespace App\Models;
 
 use Eloquent;
+use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -24,23 +26,27 @@ use Illuminate\Support\Carbon;
  * @property string|null $game_name
  * @property string|null $type
  * @property int $user_id
+ * @property-read Collection<int, \App\Models\Team> $team
+ * @property-read int|null $team_count
+ * @property-read Collection<int, \App\Models\Team> $teams
+ * @property-read int|null $teams_count
  * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
  * @property-read \App\Models\User $user
- * @method static Builder|Package newModelQuery()
- * @method static Builder|Package newQuery()
- * @method static Builder|Package query()
- * @method static Builder|Package whereCreatedAt($value)
- * @method static Builder|Package whereGameName($value)
- * @method static Builder|Package whereId($value)
- * @method static Builder|Package whereName($value)
- * @method static Builder|Package wherePrice($value)
- * @method static Builder|Package wherePriceCurrencyCode($value)
- * @method static Builder|Package whereProductId($value)
- * @method static Builder|Package whereTitle($value)
- * @method static Builder|Package whereType($value)
- * @method static Builder|Package whereUpdatedAt($value)
- * @method static Builder|Package whereUserId($value)
+ * @method static Builder<static>|Package newModelQuery()
+ * @method static Builder<static>|Package newQuery()
+ * @method static Builder<static>|Package query()
+ * @method static Builder<static>|Package whereCreatedAt($value)
+ * @method static Builder<static>|Package whereGameName($value)
+ * @method static Builder<static>|Package whereId($value)
+ * @method static Builder<static>|Package whereName($value)
+ * @method static Builder<static>|Package wherePrice($value)
+ * @method static Builder<static>|Package wherePriceCurrencyCode($value)
+ * @method static Builder<static>|Package whereProductId($value)
+ * @method static Builder<static>|Package whereTitle($value)
+ * @method static Builder<static>|Package whereType($value)
+ * @method static Builder<static>|Package whereUpdatedAt($value)
+ * @method static Builder<static>|Package whereUserId($value)
  * @mixin Eloquent
  */
 class Package extends Model
@@ -64,10 +70,12 @@ class Package extends Model
 
         // Create a new export history
         $exportHistory = TokenExportHistory::create([
-            'user_id' => auth()->id(),
+            'created_by' => auth()->id(),
             'package_id' => $package->id,
             'quantity' => $quantity,
         ]);
+
+        $exportHistory->teams()->attach(Filament::getTenant(), ['created_at' => now(), 'updated_at' => now()]);
 
         // Update the tokens to mark them as exported
         Token::whereIn('id', $tokens->pluck('id'))->update(['export_history_id' => $exportHistory->id]);
@@ -78,5 +86,15 @@ class Package extends Model
     public function tokens(): HasMany
     {
         return $this->hasMany(Token::class);
+    }
+
+    public function team(): MorphToMany
+    {
+        return $this->teams();
+    }
+
+    public function teams(): MorphToMany
+    {
+        return $this->morphToMany(Team::class, 'teamable');
     }
 }

@@ -25,7 +25,7 @@ class TokenResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('token')
+                Forms\Components\TextInput::make('purchase_token')
                     ->label('Token')
                     ->required()
                     ->placeholder('Token'),
@@ -46,6 +46,11 @@ class TokenResource extends Resource
                 Forms\Components\TextInput::make('order_id')
                     ->label('Order Id')
                     ->placeholder('Order Id'),
+
+                Forms\Components\Hidden::make('owner_id')
+                    ->default(auth()->id()),
+                Forms\Components\Hidden::make('created_by')
+                    ->default(auth()->id())
             ]);
     }
 
