@@ -9,6 +9,7 @@
         "filament/actions": "^3.2",
         "filament/filament": "^3.2",
         "filament/notifications": "^3.2",
+        "filament/spark-billing-provider": "^3.2",
         "laravel/framework": "^v11.27.2",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",

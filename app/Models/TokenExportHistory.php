@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -22,15 +23,15 @@ use Illuminate\Support\Carbon;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
  * @property-read \App\Models\User $user
- * @method static Builder|TokenExportHistory newModelQuery()
- * @method static Builder|TokenExportHistory newQuery()
- * @method static Builder|TokenExportHistory query()
- * @method static Builder|TokenExportHistory whereCreatedAt($value)
- * @method static Builder|TokenExportHistory whereId($value)
- * @method static Builder|TokenExportHistory wherePackageId($value)
- * @method static Builder|TokenExportHistory whereQuantity($value)
- * @method static Builder|TokenExportHistory whereUpdatedAt($value)
- * @method static Builder|TokenExportHistory whereUserId($value)
+ * @method static Builder<static>|TokenExportHistory newModelQuery()
+ * @method static Builder<static>|TokenExportHistory newQuery()
+ * @method static Builder<static>|TokenExportHistory query()
+ * @method static Builder<static>|TokenExportHistory whereCreatedAt($value)
+ * @method static Builder<static>|TokenExportHistory whereId($value)
+ * @method static Builder<static>|TokenExportHistory wherePackageId($value)
+ * @method static Builder<static>|TokenExportHistory whereQuantity($value)
+ * @method static Builder<static>|TokenExportHistory whereUpdatedAt($value)
+ * @method static Builder<static>|TokenExportHistory whereUserId($value)
  * @mixin Eloquent
  */
 class TokenExportHistory extends Model
@@ -50,5 +51,10 @@ class TokenExportHistory extends Model
     public function tokens(): HasMany
     {
         return $this->hasMany(Token::class, 'export_history_id', 'id');
+    }
+
+      public function team(): MorphToMany
+    {
+        return $this->morphToMany(Team::class, 'teamable');
     }
 }
