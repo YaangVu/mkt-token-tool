@@ -10,19 +10,23 @@ class PackageController extends Controller
 {
     public function getList()
     {
-        $packages = Package::all()->map(function ($package) {
+        $packages = Package::all()->map(function (Package $package) {
             return [
                 '_id' => $package->id,
                 'price' => $package->price,
-                'price_currency_code' => $package->currency,
-                'productId' => $package->game->name,
+                'price_currency_code' => $package->price_currency_code,
+//                'productId' => $package->product_id,
+                'product_id' => $package->product_id,
                 'title' => $package->title,
                 'type' => $package->type,
-                'createdTime' => $package->created_at->toIso8601String(),
-                'idInt' => $package->id,
-                'game_id' => $package->game->id,
+//                'createdTime' => $package->created_at->toIso8601String(),
+                'created_time' => $package->created_at->toIso8601String(),
+//                'idInt' => $package->id,
+                'id_int' => $package->id,
+                'game_id' => $package->id,
                 'id' => $package->id,
-                'packageName' => $package->code
+//                'packageName' => $package->name
+                'package_name' => $package->name
             ];
         });
 

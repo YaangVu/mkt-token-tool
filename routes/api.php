@@ -13,8 +13,10 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/client/login', [AuthController::class, 'clientSignIn']);
 
-Route::post('/client/download/kernel', [FileDownloadController::class, 'downloadKernel']);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('/client/download/kernel', [FileDownloadController::class, 'downloadKernel']);
 
-Route::get('/client/packages', [PackageController::class, 'getList']);
+    Route::get('/client/packages', [PackageController::class, 'getList']);
 
-Route::post('/client/tokens', [TokenController::class, 'addToken']);
+    Route::post('/client/tokens', [TokenController::class, 'addToken']);
+});

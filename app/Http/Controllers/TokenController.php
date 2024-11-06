@@ -26,6 +26,14 @@ class TokenController extends Controller
 
         $package = Package::whereProductId($validatedData['sku'])->first();
 
+        if (!$package) {
+            return response()->json([
+                'code' => 404,
+                'data' => null,
+                'message' => 'SKU not found',
+            ]);
+        }
+
         $token = Token::create([
             'order_id' => $validatedData['mOriginalJson']['orderId'],
             'package_name' => $validatedData['mOriginalJson']['packageName'],
@@ -39,6 +47,8 @@ class TokenController extends Controller
             'sku' => $validatedData['sku'],
             'client_id' => 1, // TODO: Replace with actual client ID
             'package_id' => $package->id,
+            'owner_id' => auth()->id(),
+            'created_by' => auth()->id(),
         ]);
 
         return response()->json([
