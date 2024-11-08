@@ -33,7 +33,7 @@ class AuthController extends Controller
             'data' => [
                 'username' => $user->username,
                 'token' => $token,
-                'teams' => $user->teams->pluck('name', 'id'),
+                'teams' => $user->teams->select(['id','name']),
                 'childStatus' => 0, // Example value, adjust as needed
                 'versions' => "1.0", // Example value, adjust as needed
             ],
