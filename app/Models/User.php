@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
@@ -24,7 +26,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -103,9 +105,9 @@ class User extends Authenticatable implements HasTenants, FilamentUser
         return $this->teams()->whereKey($tenant)->exists();
     }
 
-    public function teams(): MorphToMany
+    public function teams(): BelongsToMany
     {
-        return $this->morphToMany(Team::class, 'teamable');
+        return $this->belongsToMany(Team::class, table: 'team_user_schemas');
     }
 
     public function canAccessPanel(Panel $panel): bool
@@ -113,9 +115,9 @@ class User extends Authenticatable implements HasTenants, FilamentUser
         return true; //TODO
     }
 
-    public function team(): MorphToMany
+    public function team(): BelongsTo
     {
-        return $this->teams();
+        return $this->belongsTo(Team::class);
     }
 
     /**

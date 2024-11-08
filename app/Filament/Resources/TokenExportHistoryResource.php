@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 class TokenExportHistoryResource extends Resource
@@ -21,6 +22,11 @@ class TokenExportHistoryResource extends Resource
     protected static ?string $model = TokenExportHistory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-down-on-square-stack';
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return auth()->user()->canAny(['view-any TokenExportHistory', 'view TokenExportHistory']);
+    }
 
     public static function getNavigationLabel(): string
     {
@@ -90,7 +96,6 @@ class TokenExportHistoryResource extends Resource
                         );
                     })
             ], layout: FiltersLayout::AboveContent)
-
             ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\Action::make('download')

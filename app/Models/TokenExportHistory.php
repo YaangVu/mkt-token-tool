@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -19,9 +18,9 @@ use Illuminate\Support\Carbon;
  * @property int $created_by
  * @property int $package_id
  * @property int $quantity
+ * @property int|null $team_id
  * @property-read \App\Models\Package $package
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $team
- * @property-read int|null $team_count
+ * @property-read \App\Models\Team|null $team
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
  * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Token> $tokens
@@ -35,6 +34,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|TokenExportHistory whereId($value)
  * @method static Builder<static>|TokenExportHistory wherePackageId($value)
  * @method static Builder<static>|TokenExportHistory whereQuantity($value)
+ * @method static Builder<static>|TokenExportHistory whereTeamId($value)
  * @method static Builder<static>|TokenExportHistory whereUpdatedAt($value)
  * @mixin Eloquent
  */
@@ -57,13 +57,8 @@ class TokenExportHistory extends Model
         return $this->hasMany(Token::class, 'export_history_id', 'id');
     }
 
-    public function team(): MorphToMany
+    public function team(): BelongsTo
     {
-        return $this->teams();
-    }
-
-    public function teams(): MorphToMany
-    {
-        return $this->morphToMany(Team::class, 'teamable');
+        return $this->belongsTo(Team::class);
     }
 }

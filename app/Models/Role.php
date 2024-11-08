@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $team_id
@@ -14,6 +17,8 @@ namespace App\Models;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
  * @property-read \App\Models\Team|null $team
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
+ * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Role newModelQuery()
@@ -31,7 +36,7 @@ namespace App\Models;
  */
 class Role extends \Spatie\Permission\Models\Role
 {
-    public function team(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
     }

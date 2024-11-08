@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-         $user->roles()->attach(1, ['team_id' => 1]);;
+         $user->roles()->attach(1, ['team_id' => 1]); // Super Admin on Guard web
+         $user->roles()->attach(4, ['team_id' => 1]); // Super Admin on Guard api
     }
 }

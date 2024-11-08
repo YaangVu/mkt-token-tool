@@ -18,16 +18,15 @@ return new class extends Migration {
             $table->timestamp('activated_at')->nullable();
             $table->timestamp('expired_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
-            $table->foreignId('created_by')->nullable()->constrained()->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->nullable();
             $table->float('coin')->default(0);
         });
-
-        Schema::create('teamables', function (Blueprint $table) {
+        Schema::create('team_user_schemas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('team_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('role_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
-            $table->foreignId('team_id')->constrained()->onDelete('cascade');
-            $table->string('teamable_type');
-            $table->bigInteger('teamable_id');
         });
     }
 
@@ -36,7 +35,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('teamables');
+        Schema::dropIfExists('team_user_schemas');
         Schema::dropIfExists('teams');
     }
 };

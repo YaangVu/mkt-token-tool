@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
+            $table->bigInteger('team_id')->nullable();
         });
     }
 

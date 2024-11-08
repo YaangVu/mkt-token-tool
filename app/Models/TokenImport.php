@@ -21,28 +21,29 @@ use Illuminate\Support\Carbon;
  * @property string $product_id
  * @property string|null $game_name
  * @property string|null $type
- * @property int $user_id
- * @property-read Collection<int, \App\Models\Team> $team
- * @property-read int|null $team_count
+ * @property int $created_by
+ * @property int|null $team_id
+ * @property-read \App\Models\Team|null $team
  * @property-read Collection<int, \App\Models\Team> $teams
  * @property-read int|null $teams_count
  * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @method static Builder<static>|TokenImport newModelQuery()
  * @method static Builder<static>|TokenImport newQuery()
  * @method static Builder<static>|TokenImport query()
  * @method static Builder<static>|TokenImport whereCreatedAt($value)
+ * @method static Builder<static>|TokenImport whereCreatedBy($value)
  * @method static Builder<static>|TokenImport whereGameName($value)
  * @method static Builder<static>|TokenImport whereId($value)
  * @method static Builder<static>|TokenImport whereName($value)
  * @method static Builder<static>|TokenImport wherePrice($value)
  * @method static Builder<static>|TokenImport wherePriceCurrencyCode($value)
  * @method static Builder<static>|TokenImport whereProductId($value)
+ * @method static Builder<static>|TokenImport whereTeamId($value)
  * @method static Builder<static>|TokenImport whereTitle($value)
  * @method static Builder<static>|TokenImport whereType($value)
  * @method static Builder<static>|TokenImport whereUpdatedAt($value)
- * @method static Builder<static>|TokenImport whereUserId($value)
  * @mixin Eloquent
  */
 class TokenImport extends Package
@@ -58,10 +59,5 @@ class TokenImport extends Package
     public function hasTokens(Builder $query): Builder
     {
         return $query->whereHas('tokens');
-    }
-
-    public function getMorphClass(): string
-    {
-        return Package::class;
     }
 }

@@ -16,6 +16,11 @@ class RegisterTeam extends RegisterTenant
         return 'Register team';
     }
 
+    public static function canView(): bool
+    {
+        return true;
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -27,11 +32,17 @@ class RegisterTeam extends RegisterTenant
 
     protected function handleRegistration(array $data): Team
     {
+        /**
+         * @var Team $team
+         */
         $team = Team::create([...$data, ...['created_by' => auth()->user()->id]]);
 
-        $team->users()->attach(auth()->user(), ['created_at' => now(), 'updated_at' => now()]);
+        // Attach the current user to the team as an admin
+        auth()->user()->teams()->attach(auth()->id(), ['team_id' => $team->id, 'role_id' => Role::whereName(DefaultRoles::TEAM_ADMIN)->first()->id]);
 
+        // Attach TeamAdmin role to the current user
         Role::whereName(DefaultRoles::TEAM_ADMIN)->first()->users()->attach(auth()->user(), ['team_id' => $team->id]);
+
 
         return $team;
     }

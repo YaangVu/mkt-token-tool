@@ -9,12 +9,18 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class TokenResource extends Resource
 {
     protected static ?string $model = Token::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return auth()->user()->canAny(['view-any Token', 'view Token']);
+    }
 
     public static function getNavigationSort(): ?int
     {

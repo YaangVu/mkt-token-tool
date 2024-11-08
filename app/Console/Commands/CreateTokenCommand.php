@@ -42,9 +42,10 @@ class CreateTokenCommand extends Command
 
         for ($i = 0; $i < $count; $i++) {
             $token = Token::factory()->create();
-            $this->info("Token created with ID: {$token->id}");
+            $no = number_format($i+1) . '/' . number_format($count);
+            $this->info("Token $no created with ID: {$token->id}");
             // Attach the token to team_id=1
-            $token->teams()->attach($teamId);
+//            $token->teams()->attach($teamId);
         }
     }
 }

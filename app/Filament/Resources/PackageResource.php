@@ -9,12 +9,18 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class PackageResource extends Resource
 {
     protected static ?string $model = Package::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return auth()->user()->canAny(['view-any Package', 'view Package']);
+    }
 
     public static function getNavigationSort(): ?int
     {

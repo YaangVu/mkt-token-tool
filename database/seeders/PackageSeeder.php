@@ -12,8 +12,6 @@ class PackageSeeder extends Seeder
      */
     public function run(): void
     {
-        Package::factory(10)->create()->each(function ($package) {
-            $package->teams()->attach(1);
-        });
+        Package::factory(10)->create();
     }
 }

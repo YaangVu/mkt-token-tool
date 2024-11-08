@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\Response;
-use App\Models\Teamable;
+use App\Models\TeamUserSchema;
 use App\Models\User;
 
-class TeamablePolicy
+class TeamUserSchemaPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class TeamablePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Teamable $teamable): bool
+    public function view(User $user, TeamUserSchema $teamuserschema): bool
     {
         return $user->checkPermissionTo('{{ viewPermission }}');
     }
@@ -35,7 +35,7 @@ class TeamablePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Teamable $teamable): bool
+    public function update(User $user, TeamUserSchema $teamuserschema): bool
     {
         return $user->checkPermissionTo('{{ updatePermission }}');
     }
@@ -43,7 +43,7 @@ class TeamablePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Teamable $teamable): bool
+    public function delete(User $user, TeamUserSchema $teamuserschema): bool
     {
         return $user->checkPermissionTo('{{ deletePermission }}');
     }
@@ -59,7 +59,7 @@ class TeamablePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Teamable $teamable): bool
+    public function restore(User $user, TeamUserSchema $teamuserschema): bool
     {
         return $user->checkPermissionTo('{{ restorePermission }}');
     }
@@ -75,7 +75,7 @@ class TeamablePolicy
     /**
      * Determine whether the user can replicate the model.
      */
-    public function replicate(User $user, Teamable $teamable): bool
+    public function replicate(User $user, TeamUserSchema $teamuserschema): bool
     {
         return $user->checkPermissionTo('{{ replicatePermission }}');
     }
@@ -91,7 +91,7 @@ class TeamablePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Teamable $teamable): bool
+    public function forceDelete(User $user, TeamUserSchema $teamuserschema): bool
     {
         return $user->checkPermissionTo('{{ forceDeletePermission }}');
     }

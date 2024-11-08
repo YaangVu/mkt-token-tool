@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Filament\Models\Contracts\HasCurrentTenantLabel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -52,24 +53,24 @@ class Team extends Model implements HasCurrentTenantLabel
 
     protected $fillable = ['name', 'activated_at', 'deleted_at', 'created_at', 'updated_at', 'created_by', 'is_active', 'coin'];
 
-    public function members(): MorphToMany
+    public function members(): HasMany
     {
-        return $this->morphedByMany(User::class, 'teamable');
+        return $this->hasMany(User::class);
     }
 
-    public function users(): MorphToMany
+    public function users(): HasMany
     {
-        return $this->morphedByMany(User::class, 'teamable');
+        return $this->hasMany(User::class);
     }
 
-    public function packages(): MorphToMany
+    public function packages(): HasMany
     {
-        return $this->morphedByMany(Package::class, 'teamable');
+        return $this->hasMany(Package::class);
     }
 
-    public function tokens(): MorphToMany
+    public function tokens(): HasMany
     {
-        return $this->morphedByMany(Token::class, 'teamable');
+        return $this->hasMany(Token::class);
     }
 
     public function getCurrentTenantLabel(): string

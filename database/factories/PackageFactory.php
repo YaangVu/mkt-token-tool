@@ -25,7 +25,8 @@ class PackageFactory extends Factory
             'product_id' => $this->faker->uuid,
             'type' => 'inapp',
             'price_currency_code' => $this->faker->currencyCode,
-            'created_by' => 1
+            'created_by' => 1,
+            'team_id' => 1,
         ];
     }
 }

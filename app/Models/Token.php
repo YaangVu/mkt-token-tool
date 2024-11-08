@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
@@ -23,14 +24,15 @@ use Illuminate\Support\Carbon;
  * @property int $owner_id
  * @property int $created_by
  * @property int $package_id
+ * @property int|null $team_id
  * @property int|null $export_history_id
  * @property-read \App\Models\User $owner
  * @property-read \App\Models\Package $package
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $team
- * @property-read int|null $team_count
+ * @property-read \App\Models\Team|null $team
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
  * @property-read int|null $teams_count
  * @property-read \App\Models\User $user
+ * @method static \Database\Factories\TokenFactory factory($count = null, $state = [])
  * @method static Builder<static>|Token newModelQuery()
  * @method static Builder<static>|Token newQuery()
  * @method static Builder<static>|Token query()
@@ -44,6 +46,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Token wherePackageId($value)
  * @method static Builder<static>|Token wherePurchaseToken($value)
  * @method static Builder<static>|Token whereSignature($value)
+ * @method static Builder<static>|Token whereTeamId($value)
  * @method static Builder<static>|Token whereUpdatedAt($value)
  * @mixin Eloquent
  */
@@ -73,13 +76,8 @@ class Token extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function team(): MorphToMany
+    public function team(): BelongsTo
     {
-        return $this->teams();
-    }
-
-    public function teams(): MorphToMany
-    {
-        return $this->morphToMany(Team::class, 'teamable');
+        return $this->belongsTo(Team::class);
     }
 }

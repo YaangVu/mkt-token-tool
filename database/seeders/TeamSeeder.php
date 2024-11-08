@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Team;
+use App\Models\TeamUserSchema;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -13,13 +14,17 @@ class TeamSeeder extends Seeder
      */
     public function run(): void
     {
+        $user = User::first();
         $team = Team::create([
-            'name' => "Admin's Team",
+            'name' => "$user->name's Team",
             'is_active' => true,
             'activated_at' => now(),
-            'created_by' => 1
+            'created_by' => null,
         ]);
-
-        $team->users()->attach(User::first(), ['created_at' => now(), 'updated_at' => now()]);
+        TeamUserSchema::create([
+            'team_id' => $team->id,
+            'user_id' => $user->id,
+            'role_id' => 1,
+        ]);
     }
 }

@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -26,28 +25,30 @@ use Illuminate\Support\Carbon;
  * @property string $product_id
  * @property string|null $game_name
  * @property string|null $type
- * @property int $user_id
- * @property-read Collection<int, \App\Models\Team> $team
- * @property-read int|null $team_count
+ * @property int $created_by
+ * @property int|null $team_id
+ * @property-read \App\Models\Team|null $team
  * @property-read Collection<int, \App\Models\Team> $teams
  * @property-read int|null $teams_count
  * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\PackageFactory factory($count = null, $state = [])
  * @method static Builder<static>|Package newModelQuery()
  * @method static Builder<static>|Package newQuery()
  * @method static Builder<static>|Package query()
  * @method static Builder<static>|Package whereCreatedAt($value)
+ * @method static Builder<static>|Package whereCreatedBy($value)
  * @method static Builder<static>|Package whereGameName($value)
  * @method static Builder<static>|Package whereId($value)
  * @method static Builder<static>|Package whereName($value)
  * @method static Builder<static>|Package wherePrice($value)
  * @method static Builder<static>|Package wherePriceCurrencyCode($value)
  * @method static Builder<static>|Package whereProductId($value)
+ * @method static Builder<static>|Package whereTeamId($value)
  * @method static Builder<static>|Package whereTitle($value)
  * @method static Builder<static>|Package whereType($value)
  * @method static Builder<static>|Package whereUpdatedAt($value)
- * @method static Builder<static>|Package whereUserId($value)
  * @mixin Eloquent
  */
 class Package extends Model
@@ -91,13 +92,8 @@ class Package extends Model
         return $this->hasMany(Token::class);
     }
 
-    public function team(): MorphToMany
+    public function team(): BelongsTo
     {
-        return $this->teams();
-    }
-
-    public function teams(): MorphToMany
-    {
-        return $this->morphToMany(Team::class, 'teamable');
+        return $this->belongsTo(Team::class);
     }
 }

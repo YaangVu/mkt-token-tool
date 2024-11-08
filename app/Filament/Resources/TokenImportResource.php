@@ -11,12 +11,18 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class TokenImportResource extends Resource
 {
     protected static ?string $model = TokenImport::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-up-on-square-stack';
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return auth()->user()->canAny(['view-any TokenImport', 'view TokenImport']);
+    }
 
     public static function getNavigationLabel(): string
     {

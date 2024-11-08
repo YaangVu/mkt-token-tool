@@ -14,7 +14,68 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         Role::create(['name' => DefaultRoles::SUPER_ADMIN]);
-        Role::create(['name' => DefaultRoles::TEAM_ADMIN]);
-        Role::create(['name' => DefaultRoles::TEAM_MEMBER]);
+        $teamAdminRole = Role::create(['name' => DefaultRoles::TEAM_ADMIN]);
+        $teamMemberRole = Role::create(['name' => DefaultRoles::TEAM_MEMBER]);
+
+        $this->assignPermissionsToTeamAdminRole($teamAdminRole);
+        $this->assignPermissionsToTeamMemberRole($teamMemberRole);
+
+        Role::create(['name' => DefaultRoles::SUPER_ADMIN, 'guard_name' => 'api']);
+        $teamAdminRoleApi = Role::create(['name' => DefaultRoles::TEAM_ADMIN, 'guard_name' => 'api']);
+        $teamMemberRoleApi = Role::create(['name' => DefaultRoles::TEAM_MEMBER, 'guard_name' => 'api']);
+
+        $this->assignPermissionsToTeamAdminRole($teamAdminRoleApi);
+        $this->assignPermissionsToTeamMemberRole($teamMemberRoleApi);
+    }
+
+    // Assign all view permission to the team admin role
+    public function assignPermissionsToTeamAdminRole(Role $teamAdminRole): void
+    {
+        $teamAdminRole->givePermissionTo(
+            [
+                'view-any Member',
+                'view-any Package',
+                'view-any Token',
+                'view-any TokenImport',
+                'view-any TokenExportHistory',
+                'create Member',
+                'create Package',
+                'create Token',
+                'create TokenImport',
+                'create TokenExportHistory',
+                'update Member',
+                'update Package',
+                'update Token',
+                'update TokenImport',
+                'update TokenExportHistory',
+                'delete Member',
+                'delete Package',
+                'delete Token',
+                'delete TokenImport',
+                'delete TokenExportHistory',
+                'delete-any Member',
+                'delete-any Package',
+                'delete-any Token',
+                'delete-any TokenImport',
+                'delete-any TokenExportHistory',
+            ]);
+    }
+
+    // Assign all view permission to the team member role
+    public function assignPermissionsToTeamMemberRole(Role $teamMemberRole): void
+    {
+        $teamMemberRole->givePermissionTo(
+            [
+                'view Package',
+                'view Token',
+                'view TokenImport',
+                'view TokenExportHistory',
+                'create Token',
+                'create TokenImport',
+                'create TokenExportHistory',
+                'update Token',
+                'update TokenImport',
+                'update TokenExportHistory',
+            ]);
     }
 }
