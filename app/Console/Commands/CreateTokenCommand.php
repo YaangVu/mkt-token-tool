@@ -40,12 +40,12 @@ class CreateTokenCommand extends Command
             required: true,
         );
 
-        for ($i = 0; $i < $count; $i++) {
-            $token = Token::factory()->create();
-            $no = number_format($i+1) . '/' . number_format($count);
-            $this->info("Token $no created with ID: {$token->id}");
-            // Attach the token to team_id=1
-//            $token->teams()->attach($teamId);
+        $ccu = 1000;
+        $loop = $count / $ccu;
+        for ($i = 0; $i < $loop; $i++) {
+            Token::factory($ccu)->create();
+            $no = number_format($ccu * ($i + 1)) . '/' . number_format($count);
+            $this->info("$no Tokens were created");
         }
     }
 }
