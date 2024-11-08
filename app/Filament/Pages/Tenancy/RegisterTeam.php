@@ -2,6 +2,8 @@
 
 namespace App\Filament\Pages\Tenancy;
 
+use App\Constants\DefaultRoles;
+use App\Models\Role;
 use App\Models\Team;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -28,6 +30,8 @@ class RegisterTeam extends RegisterTenant
         $team = Team::create([...$data, ...['created_by' => auth()->user()->id]]);
 
         $team->users()->attach(auth()->user(), ['created_at' => now(), 'updated_at' => now()]);
+
+        Role::whereName(DefaultRoles::TEAM_ADMIN)->first()->users()->attach(auth()->user(), ['team_id' => $team->id]);
 
         return $team;
     }

@@ -18,6 +18,10 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Role> $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $team
  * @property-read int|null $team_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
@@ -26,7 +30,9 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property-read int|null $tokens_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newQuery()
+ * @method static Builder<static>|Member permission($permissions, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member query()
+ * @method static Builder<static>|Member role($roles, $guard = null, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereEmailVerifiedAt($value)
@@ -36,6 +42,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereUsername($value)
+ * @method static Builder<static>|Member withoutPermission($permissions)
+ * @method static Builder<static>|Member withoutRole($roles, $guard = null)
  * @mixin \Eloquent
  */
 class Member extends User

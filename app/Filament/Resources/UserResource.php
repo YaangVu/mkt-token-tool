@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource
 {
@@ -18,6 +19,11 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $navigationGroup = 'Settings';
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return auth()->user()->can('view User');
+    }
 
     public static function getNavigationLabel(): string
     {

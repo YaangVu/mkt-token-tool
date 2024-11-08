@@ -16,8 +16,10 @@ return new class extends Migration {
             $table->string('name');
             $table->boolean('is_active')->default(false);
             $table->timestamp('activated_at')->nullable();
+            $table->timestamp('expired_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('created_by')->nullable()->constrained()->on('users')->onDelete('cascade');
+            $table->float('coin')->default(0);
         });
 
         Schema::create('teamables', function (Blueprint $table) {

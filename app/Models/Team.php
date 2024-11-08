@@ -16,8 +16,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $name
  * @property int $is_active
  * @property string|null $activated_at
+ * @property string|null $expired_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property int $created_by
+ * @property int|null $created_by
+ * @property float $coin
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $members
  * @property-read int|null $members_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Package> $packages
@@ -31,9 +33,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Team onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Team query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereActivatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereCoin($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereExpiredAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereName($value)
@@ -46,7 +50,7 @@ class Team extends Model implements HasCurrentTenantLabel
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'activated_at', 'deleted_at', 'created_at', 'updated_at', 'created_by', 'is_active'];
+    protected $fillable = ['name', 'activated_at', 'deleted_at', 'created_at', 'updated_at', 'created_by', 'is_active', 'coin'];
 
     public function members(): MorphToMany
     {
@@ -71,5 +75,12 @@ class Team extends Model implements HasCurrentTenantLabel
     public function getCurrentTenantLabel(): string
     {
         return $this->is_active ? 'Active team' : 'Inactive team';
+    }
+
+    public function addCoin(float $coin): static
+    {
+        $this->coin += $coin;
+        $this->save();
+        return $this;
     }
 }

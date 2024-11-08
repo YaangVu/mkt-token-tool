@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -48,6 +49,8 @@ use Illuminate\Support\Carbon;
  */
 class Token extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['purchase_token', 'original_json', 'signature', 'order_id', 'owner_id', 'package_id', 'export_history_id', 'created_by'];
 
     public function user(): BelongsTo

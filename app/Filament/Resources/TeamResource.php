@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TeamResource\Pages;
 use App\Filament\Resources\TeamResource\RelationManagers;
 use App\Models\Team;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -26,14 +27,9 @@ class TeamResource extends Resource
         return false;
     }
 
-
-
-    public static function form(Form $form): Form
+    public static function can(string $action, ?Model $record = null): bool
     {
-        return $form
-            ->schema([
-                //
-            ]);
+        return auth()->user()->can('view Team');
     }
 
     public static function table(Table $table): Table
@@ -61,17 +57,45 @@ class TeamResource extends Resource
                 Tables\Columns\TextColumn::make('activated_at')
                     ->label('Activated At')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('coin')
+                    ->label('Coin')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('expired_at')
+                    ->label('Expired At')
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
 //                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('add_coin')
+                    ->label('Add Coin')
+                    ->icon('heroicon-s-currency-dollar')
+                    ->requiresConfirmation()
+                    ->form([
+                        // Number of coins to add
+                        TextInput::make('coin')
+                            ->label('Coin')
+                            ->required()
+                            ->numeric()
+                            ->minValue(0),
+                    ])
+                    ->action(fn(Team $team, array $data) => $team->addCoin($data['coin']))
+                ,
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                //
             ]);
     }
 

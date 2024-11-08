@@ -6,6 +6,7 @@ use Eloquent;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -51,7 +52,9 @@ use Illuminate\Support\Carbon;
  */
 class Package extends Model
 {
-    protected $fillable = ['title', 'name', 'price', 'price_currency_code', 'product_id', 'game_name', 'type', 'user_id'];
+    use HasFactory;
+
+    protected $fillable = ['title', 'name', 'price', 'price_currency_code', 'product_id', 'game_name', 'type', 'created_by'];
 
     public function user(): BelongsTo
     {

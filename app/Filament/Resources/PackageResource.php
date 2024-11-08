@@ -107,7 +107,7 @@ class PackageResource extends Resource
                         'EUR' => 'EUR',
                         'GBP' => 'GBP',
                     ]),
-                Forms\Components\Hidden::make('user_id')
+                Forms\Components\Hidden::make('created_by')
                     ->default(auth()->id())
                     ->required(),
             ]);

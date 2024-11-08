@@ -31,7 +31,7 @@ class TokenController extends Controller
                 'code' => 404,
                 'data' => null,
                 'message' => 'SKU not found',
-            ]);
+            ], 400);
         }
 
         $token = Token::create([
