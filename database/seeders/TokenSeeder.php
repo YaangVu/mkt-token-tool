@@ -13,7 +13,7 @@ class TokenSeeder extends Seeder
      */
     public function run(): void
     {
-        Token::factory(100000)->create()->each(function ($token) {
+        Token::factory(100)->create()->each(function ($token) {
             $token->teams()->attach(1);
         });
     }
