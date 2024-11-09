@@ -60,6 +60,9 @@ class TeamResource extends Resource
                 Tables\Columns\TextColumn::make('coin')
                     ->label('Coin')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('coin_requested')
+                    ->label('Coin Requested')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('expired_at')
                     ->label('Expired At')
                     ->sortable(),

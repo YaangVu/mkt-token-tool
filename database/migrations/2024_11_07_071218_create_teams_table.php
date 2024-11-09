@@ -20,13 +20,13 @@ return new class extends Migration {
             $table->timestamp('deleted_at')->nullable();
             $table->foreignId('created_by')->nullable();
             $table->float('coin')->default(0);
+            $table->float('coin_requested')->default(0);
         });
         Schema::create('team_user_schemas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('team_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('role_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
         });
     }
 

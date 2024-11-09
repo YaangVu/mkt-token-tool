@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
+use Database\Factories\TokenFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -26,13 +25,11 @@ use Illuminate\Support\Carbon;
  * @property int $package_id
  * @property int|null $team_id
  * @property int|null $export_history_id
- * @property-read \App\Models\User $owner
- * @property-read \App\Models\Package $package
- * @property-read \App\Models\Team|null $team
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Team> $teams
- * @property-read int|null $teams_count
- * @property-read \App\Models\User $user
- * @method static \Database\Factories\TokenFactory factory($count = null, $state = [])
+ * @property-read User $owner
+ * @property-read Package $package
+ * @property-read Team|null $team
+ * @property-read User $user
+ * @method static TokenFactory factory($count = null, $state = [])
  * @method static Builder<static>|Token newModelQuery()
  * @method static Builder<static>|Token newQuery()
  * @method static Builder<static>|Token query()

@@ -2,56 +2,61 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Filament\Models\Contracts\HasCurrentTenantLabel;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string $name
  * @property int $is_active
  * @property string|null $activated_at
  * @property string|null $expired_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property Carbon|null $deleted_at
  * @property int|null $created_by
  * @property float $coin
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $members
+ * @property float $coin_requested
+ * @property-read Collection<int, User> $members
  * @property-read int|null $members_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Package> $packages
+ * @property-read Collection<int, Package> $packages
  * @property-read int|null $packages_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Token> $tokens
+ * @property-read Collection<int, Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereActivatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereCoin($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereExpiredAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team withTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team withoutTrashed()
- * @mixin \Eloquent
+ * @method static Builder<static>|Team newModelQuery()
+ * @method static Builder<static>|Team newQuery()
+ * @method static Builder<static>|Team onlyTrashed()
+ * @method static Builder<static>|Team query()
+ * @method static Builder<static>|Team whereActivatedAt($value)
+ * @method static Builder<static>|Team whereCoin($value)
+ * @method static Builder<static>|Team whereCoinRequested($value)
+ * @method static Builder<static>|Team whereCreatedAt($value)
+ * @method static Builder<static>|Team whereCreatedBy($value)
+ * @method static Builder<static>|Team whereDeletedAt($value)
+ * @method static Builder<static>|Team whereExpiredAt($value)
+ * @method static Builder<static>|Team whereId($value)
+ * @method static Builder<static>|Team whereIsActive($value)
+ * @method static Builder<static>|Team whereName($value)
+ * @method static Builder<static>|Team whereUpdatedAt($value)
+ * @method static Builder<static>|Team withTrashed()
+ * @method static Builder<static>|Team withoutTrashed()
+ * @mixin Eloquent
  */
 class Team extends Model implements HasCurrentTenantLabel
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'activated_at', 'deleted_at', 'created_at', 'updated_at', 'created_by', 'is_active', 'coin'];
+    protected $fillable = ['name', 'activated_at', 'deleted_at', 'created_at', 'updated_at', 'created_by', 'is_active', 'coin', 'coin_requested'];
 
     public function members(): HasMany
     {
