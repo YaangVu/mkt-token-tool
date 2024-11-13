@@ -25,5 +25,17 @@ services:
         networks:
             - laravel
 
+    mongo:
+        image: mongo
+        container_name: mongo
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./mongo-data:/data/db
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: "${DB_USERNAME}"
+            MONGO_INITDB_ROOT_PASSWORD: "${DB_PASSWORD}"
+
 networks:
     laravel:
