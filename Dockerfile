@@ -16,7 +16,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY . .
 
 # Install PHP dependencies
-RUN composer install --ignore-platform-req=ext-intl --ignore-platform-req=ext-gd
+RUN composer install --ignore-platform-req=ext-intl --ignore-platform-req=ext-gd --ignore-platform-req=ext-mongodb
 
 # Stage 2: Production stage
 FROM php:8.2-cli
