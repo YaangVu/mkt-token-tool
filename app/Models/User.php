@@ -74,6 +74,8 @@ class User extends Authenticatable implements HasTenants, FilamentUser
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, HasRoles, HasSuperAdmin;
 
+    protected $connection = 'mysql';
+
     /**
      * The attributes that are mass assignable.
      *

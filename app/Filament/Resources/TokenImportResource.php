@@ -64,10 +64,8 @@ class TokenImportResource extends Resource
                     ->label('Price')
                     ->prefix('$ ')
                     ->alignEnd(),
-
                 Tables\Columns\TextColumn::make('tokens_count')
                     ->label('Quantity')
-                    ->counts(['tokens' => fn($query) => $query->whereNull('export_history_id')])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total')
                     ->label('Thành tiền')
@@ -128,7 +126,7 @@ class TokenImportResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->modifyQueryUsing(function (Builder $query) {
-                $query->whereHas('tokens');
+                $query->where('tokens_count', '>', 0);
             });
 
     }

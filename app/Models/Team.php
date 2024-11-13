@@ -56,6 +56,8 @@ class Team extends Model implements HasCurrentTenantLabel
 {
     use SoftDeletes;
 
+    protected $connection = 'mysql';
+
     protected $fillable = ['name', 'activated_at', 'deleted_at', 'created_at', 'updated_at', 'created_by', 'is_active', 'coin', 'coin_requested'];
 
     public function members(): HasMany

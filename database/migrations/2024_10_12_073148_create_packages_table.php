@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('type')->nullable()->default('inapp');
             $table->foreignId('created_by')->references('id')->on('users');
             $table->bigInteger('team_id')->nullable();
+            $table->bigInteger('tokens_count')->default(0);
         });
     }
 

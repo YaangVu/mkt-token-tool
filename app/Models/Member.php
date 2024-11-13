@@ -57,4 +57,6 @@ use Spatie\Permission\Models\Permission;
 class Member extends User
 {
     protected $table = 'users';
+
+    protected $connection = 'mysql';
 }

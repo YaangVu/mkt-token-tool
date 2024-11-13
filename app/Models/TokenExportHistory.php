@@ -39,6 +39,8 @@ use Illuminate\Support\Carbon;
  */
 class TokenExportHistory extends Model
 {
+    protected $connection = 'mysql';
+
     protected $fillable = ['created_by', 'package_id', 'quantity'];
 
     public function user(): BelongsTo

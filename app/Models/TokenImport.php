@@ -48,6 +48,7 @@ class TokenImport extends Package
 {
     protected $table = 'packages';
 
+    protected $connection = 'mysql';
 
     public function tokens(): HasMany
     {

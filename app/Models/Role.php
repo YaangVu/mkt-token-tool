@@ -38,6 +38,8 @@ use Spatie\Permission\Models\Permission;
  */
 class Role extends \Spatie\Permission\Models\Role
 {
+    protected $connection = 'mysql';
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);

@@ -54,6 +54,8 @@ class Package extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysql';
+
     protected $fillable = ['title', 'name', 'price', 'price_currency_code', 'product_id', 'game_name', 'type', 'created_by'];
 
     public function user(): BelongsTo

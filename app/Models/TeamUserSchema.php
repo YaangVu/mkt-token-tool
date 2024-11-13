@@ -29,6 +29,8 @@ use Illuminate\Support\Carbon;
  */
 class TeamUserSchema extends Model
 {
+    protected $connection = 'mysql';
+
     protected $fillable = ['team_id', 'user_id', 'role_id'];
 
     // block create_at and updated_at when seeding
