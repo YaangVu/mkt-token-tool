@@ -72,9 +72,8 @@ RUN docker-php-ext-install \
     bcmath
 
 ## Install Mongodb
-RUN pecl install redis \
-    && docker-php-ext-enable redis.so
-
+RUN pecl install mongodb redis \
+    && docker-php-ext-enable mongodb redis.so
 
 # Copy the application files from the build stage
 COPY --from=build ${APP_ROOT} ${APP_ROOT}
