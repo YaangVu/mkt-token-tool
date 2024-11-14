@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Factories\TokenFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -52,7 +51,7 @@ class Token extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['purchase_token', 'original_json', 'signature', 'owner_id', 'sku_id', 'dump_history_id', 'created_by'];
+    protected $fillable = ['purchase_token', 'original_json', 'signature', 'owner_id', 'sku_id', 'dump_history_id', 'created_by', 'order_id', 'team_id'];
 
     public function user(): BelongsTo
     {
@@ -82,7 +81,7 @@ class Token extends Model
     protected function originalJson(): Attribute
     {
         return Attribute::make(
-//            get: fn() => json_decode($this->original_json, true),
+            get: fn() => json_decode($this->original_json, true),
             set: fn($value) => $this->original_json = json_encode($value),
         );
     }

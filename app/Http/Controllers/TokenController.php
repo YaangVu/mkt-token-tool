@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sku;
 use App\Models\Token;
+use Filament\Facades\Filament;
 use Illuminate\Http\Request;
 
 class TokenController extends Controller
@@ -15,10 +16,10 @@ class TokenController extends Controller
             'purchase_token' => 'required|string',
             'signature' => 'required|string',
             'order_id' => 'required|string',
-            'sku' => 'required|string',
+            'product_id' => 'required|string',
         ]);
 
-        $sku = Sku::whereProductId($validatedData['sku'])->first();
+        $sku = Sku::whereProductId($validatedData['product_id'])->first();
 
         if (!$sku) {
             return response()->json([
@@ -36,6 +37,7 @@ class TokenController extends Controller
             'original_json' => $validatedData['original_json'],
             'owner_id' => auth()->id(),
             'created_by' => auth()->id(),
+            'team_id' => Filament::getTenant()->id,
         ]);
 
         return response()->json([
