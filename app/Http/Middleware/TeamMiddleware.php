@@ -4,12 +4,12 @@ namespace App\Http\Middleware;
 
 use App\Models\Team;
 use Closure;
+use Filament\Facades\Filament;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TeamMiddleware
 {
-    static Team $team;
 
     /**
      * Handle an incoming request.
@@ -24,7 +24,8 @@ class TeamMiddleware
             abort(403, 'Unauthorized team');
         }
 
-        self::$team = Team::find($teamIdRequest);
+        // Set tenant team for current user by team_id
+        Filament::setTenant(Team::find($teamIdRequest), true);
 
         return $next($request);
     }

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileDownloadController;
 use App\Http\Controllers\SkuController;
 use App\Http\Controllers\TokenController;
+use App\Http\Controllers\TokenDumpHistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +23,7 @@ Route::group(['middleware' => ['auth:sanctum', \App\Http\Middleware\TeamMiddlewa
 
     Route::post('/client/tokens', [TokenController::class, 'store']);
 
-
+    Route::post('/client/tokens/dump/{productId}', [TokenDumpHistoryController::class, 'dump']);
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {

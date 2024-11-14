@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Factories\SkuFactory;
 use Eloquent;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -60,7 +59,7 @@ class Sku extends Model
     }
 
     // Export tokens
-    public function exportTokens(int $quantity, Sku $sku): TokenDumpHistory
+    public function dumpTokens(int $quantity): TokenDumpHistory
     {
         // Get tokens that have not been exported yet
         $tokens = $this->tokens()
@@ -70,17 +69,17 @@ class Sku extends Model
             ->get();
 
         // Create a new export history
-        $exportHistory = TokenDumpHistory::create([
+        $dumpHistory = TokenDumpHistory::create([
             'created_by' => auth()->id(),
-            'sku_id' => $sku->id,
+            'sku_id' => $this->id,
             'quantity' => $quantity,
             'team_id' => Filament::getTenant()->id,
         ]);
 
         // Update the tokens to mark them as exported
-        Token::whereIn('id', $tokens->pluck('id'))->update(['dump_history_id' => $exportHistory->id]);
+        Token::whereIn('id', $tokens->pluck('id'))->update(['dump_history_id' => $dumpHistory->id]);
 
-        return $exportHistory;
+        return $dumpHistory;
     }
 
     public function tokens(): HasMany

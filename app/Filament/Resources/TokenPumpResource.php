@@ -110,7 +110,7 @@ class TokenPumpResource extends Resource
                             ->maxValue(fn($get) => $get('remaining_tokens')),
                     ])
                     ->action(function (array $data, TokenPump $sku) {
-                        $sku->exportTokens($data['quantity_tokens'], $sku);
+                        $sku->dumpTokens($data['quantity_tokens']);
                         return Notification::make()
                             ->title($data['quantity_tokens'] . ' tokens were exported successfully')
                             ->success()

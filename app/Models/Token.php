@@ -82,7 +82,7 @@ class Token extends Model
     protected function originalJson(): Attribute
     {
         return Attribute::make(
-            get: fn() => json_decode($this->original_json, true),
+//            get: fn() => json_decode($this->original_json, true),
             set: fn($value) => $this->original_json = json_encode($value),
         );
     }
