@@ -25,7 +25,7 @@ class TokenFactory extends Factory
             'order_id' => $this->faker->uuid,
             'owner_id' => 1,
             'sku_id' => $this->faker->numberBetween(1, 10),
-            'export_history_id' => null,
+            'dump_history_id' => null,
             'created_by' => 1,
             'team_id' => 1,
         ];

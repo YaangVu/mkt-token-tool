@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -27,11 +27,11 @@ use Illuminate\Support\Carbon;
  * @property string|null $type
  * @property int $created_by
  * @property int|null $team_id
- * @property-read Team|null $team
- * @property-read Collection<int, Token> $tokens
+ * @property-read \App\Models\Team|null $team
+ * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read User|null $user
- * @method static SkuFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\SkuFactory factory($count = null, $state = [])
  * @method static Builder<static>|Sku newModelQuery()
  * @method static Builder<static>|Sku newQuery()
  * @method static Builder<static>|Sku query()
@@ -60,17 +60,17 @@ class Sku extends Model
     }
 
     // Export tokens
-    public function exportTokens(int $quantity, Sku $sku): TokenExportHistory
+    public function exportTokens(int $quantity, Sku $sku): TokenDumpHistory
     {
         // Get tokens that have not been exported yet
         $tokens = $this->tokens()
-            ->whereNull('export_history_id')
+            ->whereNull('dump_history_id')
             ->orderBy('created_at')
             ->limit($quantity)
             ->get();
 
         // Create a new export history
-        $exportHistory = TokenExportHistory::create([
+        $exportHistory = TokenDumpHistory::create([
             'created_by' => auth()->id(),
             'sku_id' => $sku->id,
             'quantity' => $quantity,
@@ -78,7 +78,7 @@ class Sku extends Model
         ]);
 
         // Update the tokens to mark them as exported
-        Token::whereIn('id', $tokens->pluck('id'))->update(['export_history_id' => $exportHistory->id]);
+        Token::whereIn('id', $tokens->pluck('id'))->update(['dump_history_id' => $exportHistory->id]);
 
         return $exportHistory;
     }

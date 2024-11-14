@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('token_export_histories', function (Blueprint $table) {
+        Schema::create('token_dump_histories', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('token_export_histories');
+        Schema::dropIfExists('token_dump_histories');
     }
 };

@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('tokens', function (Blueprint $table) {
-            $table->foreignId('export_history_id')->nullable()->constrained('token_export_histories')->onDelete('set null');
+            $table->foreignId('dump_history_id')->nullable()->constrained('token_dump_histories')->onDelete('set null');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('tokens', function (Blueprint $table) {
-            $table->dropForeign(['export_history_id']);
-            $table->dropColumn('export_history_id');
+            $table->dropForeign(['dump_history_id']);
+            $table->dropColumn('dump_history_id');
         });
     }
 };

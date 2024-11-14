@@ -67,7 +67,7 @@ class TokenImportResource extends Resource
 
                 Tables\Columns\TextColumn::make('tokens_count')
                     ->label('Quantity')
-                    ->counts(['tokens' => fn($query) => $query->whereNull('export_history_id')])
+                    ->counts(['tokens' => fn($query) => $query->whereNull('dump_history_id')])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total')
                     ->label('Thành tiền')
@@ -90,7 +90,7 @@ class TokenImportResource extends Resource
                         'game_name' => $import->game_name,
                         'price' => $import->price,
                         'name' => $import->name,
-                        'remaining_tokens' => $import->tokens()->whereNull('export_history_id')->count(),
+                        'remaining_tokens' => $import->tokens()->whereNull('dump_history_id')->count(),
                     ])
                     ->form([
                         TextInput::make('sku_id')

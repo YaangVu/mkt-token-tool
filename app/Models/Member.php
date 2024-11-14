@@ -13,7 +13,7 @@ use Spatie\Permission\Models\Permission;
 
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
@@ -29,10 +29,10 @@ use Spatie\Permission\Models\Permission;
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read Collection<int, Role> $roles
+ * @property-read Collection<int, \App\Models\Role> $roles
  * @property-read int|null $roles_count
- * @property-read Team|null $team
- * @property-read Collection<int, Team> $teams
+ * @property-read \App\Models\Team|null $team
+ * @property-read Collection<int, \App\Models\Team> $teams
  * @property-read int|null $teams_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count

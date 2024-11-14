@@ -26,17 +26,17 @@ use Illuminate\Support\Carbon;
  * @property int $sku_id
  * @property int|null $team_id
  * @property int|null $export_history_id
- * @property-read User $owner
- * @property-read Sku $sku
- * @property-read Team|null $team
- * @property-read User $user
- * @method static TokenFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User $owner
+ * @property-read \App\Models\Sku $sku
+ * @property-read \App\Models\Team|null $team
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\TokenFactory factory($count = null, $state = [])
  * @method static Builder<static>|Token newModelQuery()
  * @method static Builder<static>|Token newQuery()
  * @method static Builder<static>|Token query()
  * @method static Builder<static>|Token whereCreatedAt($value)
  * @method static Builder<static>|Token whereCreatedBy($value)
- * @method static Builder<static>|Token whereExportHistoryId($value)
+ * @method static Builder<static>|Token whereDumpHistoryId($value)
  * @method static Builder<static>|Token whereId($value)
  * @method static Builder<static>|Token whereOrderId($value)
  * @method static Builder<static>|Token whereOriginalJson($value)
@@ -52,7 +52,7 @@ class Token extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['purchase_token', 'original_json', 'signature', 'owner_id', 'sku_id', 'export_history_id', 'created_by'];
+    protected $fillable = ['purchase_token', 'original_json', 'signature', 'owner_id', 'sku_id', 'dump_history_id', 'created_by'];
 
     public function user(): BelongsTo
     {
@@ -66,7 +66,7 @@ class Token extends Model
 
     public function isExported(): bool
     {
-        return $this->export_history_id !== null;
+        return $this->dump_history_id !== null;
     }
 
     public function owner(): BelongsTo

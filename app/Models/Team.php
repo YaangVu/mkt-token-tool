@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -25,13 +25,13 @@ use Illuminate\Support\Carbon;
  * @property int|null $created_by
  * @property float $coin
  * @property float $coin_requested
- * @property-read Collection<int, User> $members
+ * @property-read Collection<int, \App\Models\User> $members
  * @property-read int|null $members_count
- * @property-read Collection<int, Sku> $skus
+ * @property-read Collection<int, \App\Models\Sku> $skus
  * @property-read int|null $skus_count
- * @property-read Collection<int, Token> $tokens
+ * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read Collection<int, User> $users
+ * @property-read Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  * @method static Builder<static>|Team newModelQuery()
  * @method static Builder<static>|Team newQuery()

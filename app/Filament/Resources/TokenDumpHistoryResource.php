@@ -3,9 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Exports\TokenExport;
-use App\Filament\Resources\TokenExportHistoryResource\Pages;
+use App\Filament\Resources\TokenDumpHistoryResource\Pages;
 use App\Models\Token;
-use App\Models\TokenExportHistory;
+use App\Models\TokenDumpHistory;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -17,15 +17,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
-class TokenExportHistoryResource extends Resource
+class TokenDumpHistoryResource extends Resource
 {
-    protected static ?string $model = TokenExportHistory::class;
+    protected static ?string $model = TokenDumpHistory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-down-on-square-stack';
 
     public static function can(string $action, ?Model $record = null): bool
     {
-        return auth()->user()->canAny(['view-any TokenExportHistory', 'view TokenExportHistory']);
+        return auth()->user()->canAny(['view-any TokenDumpHistory', 'view TokenDumpHistory']);
     }
 
     public static function getNavigationLabel(): string
@@ -101,7 +101,7 @@ class TokenExportHistoryResource extends Resource
                 Tables\Actions\Action::make('download')
                     ->label('Download')
                     ->icon('heroicon-o-arrow-down-tray')
-                    ->action(function (TokenExportHistory $history) {
+                    ->action(function (TokenDumpHistory $history) {
                         Notification::make()
                             ->title('Download successfully')
                             ->success()
@@ -112,8 +112,8 @@ class TokenExportHistoryResource extends Resource
                 Tables\Actions\Action::make('restore')
                     ->label('Restore')
                     ->icon('heroicon-o-arrow-path')
-                    ->action(function (TokenExportHistory $history) {
-                        Token::whereExportHistoryId($history->id)->update(['export_history_id' => null]);
+                    ->action(function (TokenDumpHistory $history) {
+                        Token::whereDumpHistoryId($history->id)->update(['dump_history_id' => null]);
                         $history->delete();
                         Notification::make()
                             ->title('Restore successfully')
@@ -150,7 +150,7 @@ class TokenExportHistoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTokenExportHistories::route('/'),
+            'index' => Pages\ListTokenDumpHistories::route('/'),
 
         ];
     }

@@ -22,7 +22,7 @@ readonly class TokenExport implements FromCollection, WithHeadings, WithMapping
     */
     public function collection(): Collection
     {
-        return Token::whereExportHistoryId($this->historyId)->get();
+        return Token::whereDumpHistoryId($this->historyId)->get();
     }
 
     public function headings(): array
