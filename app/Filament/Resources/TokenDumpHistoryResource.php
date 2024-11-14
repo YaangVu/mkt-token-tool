@@ -61,7 +61,7 @@ class TokenDumpHistoryResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Game'),
-                Tables\Columns\TextColumn::make('sku.title')
+                Tables\Columns\TextColumn::make('sku.product_id')
                     ->searchable()
                     ->sortable()
                     ->label('Sku'),

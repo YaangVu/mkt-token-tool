@@ -46,14 +46,18 @@ class TokenPump extends Sku
 {
     protected $table = 'skus';
 
+    public function hasTokens(Builder $query): Builder
+    {
+        return $query->whereHas('tokens');
+    }
+
+    public function dumpableTokens(): HasMany
+    {
+        return $this->tokens()->whereNull('dump_history_id');
+    }
 
     public function tokens(): HasMany
     {
         return $this->hasMany(Token::class, 'sku_id', 'id');
-    }
-
-    public function hasTokens(Builder $query): Builder
-    {
-        return $query->whereHas('tokens');
     }
 }

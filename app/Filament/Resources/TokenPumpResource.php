@@ -50,14 +50,14 @@ class TokenPumpResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Game Title'),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('package_name')
                     ->searchable()
                     ->sortable()
-                    ->label('Sku Name'),
-                Tables\Columns\TextColumn::make('title')
+                    ->label('Package Name'),
+                Tables\Columns\TextColumn::make('product_id')
                     ->searchable()
                     ->sortable()
-                    ->label('Sku Title'),
+                    ->label('Sku'),
                 Tables\Columns\TextColumn::make('price')
                     ->searchable()
                     ->sortable()
@@ -67,7 +67,7 @@ class TokenPumpResource extends Resource
 
                 Tables\Columns\TextColumn::make('tokens_count')
                     ->label('Quantity')
-                    ->counts(['tokens' => fn($query) => $query->whereNull('dump_history_id')])
+                    ->counts('tokens')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total')
                     ->label('Thành tiền')
@@ -128,7 +128,7 @@ class TokenPumpResource extends Resource
             ])
             ->defaultSort('id', 'desc')
             ->modifyQueryUsing(function (Builder $query) {
-                $query->whereHas('tokens');
+                $query->whereHas('dumpableTokens');
             });
 
     }

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property-read \App\Models\Sku|null $sku
  * @property-read \App\Models\Team|null $team
@@ -29,7 +29,7 @@ class TokenDumpHistory extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function sku(): BelongsTo
