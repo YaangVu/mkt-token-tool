@@ -5,10 +5,9 @@ namespace App\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $team_id
@@ -25,8 +24,8 @@ use Illuminate\Support\Carbon;
  */
 class TeamUserSchema extends Model
 {
-    protected $fillable = ['team_id', 'user_id', 'role_id'];
+    public $timestamps = false;
 
     // block create_at and updated_at when seeding
-    public $timestamps = false;
+    protected $fillable = ['team_id', 'user_id', 'role_id'];
 }

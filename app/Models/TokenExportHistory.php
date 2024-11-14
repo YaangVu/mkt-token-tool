@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -20,11 +20,11 @@ use Illuminate\Support\Carbon;
  * @property int $sku_id
  * @property int $quantity
  * @property int|null $team_id
- * @property-read \App\Models\Sku $sku
- * @property-read \App\Models\Team|null $team
- * @property-read Collection<int, \App\Models\Token> $tokens
+ * @property-read Sku $sku
+ * @property-read Team|null $team
+ * @property-read Collection<int, Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read \App\Models\User|null $user
+ * @property-read User|null $user
  * @method static Builder<static>|TokenExportHistory newModelQuery()
  * @method static Builder<static>|TokenExportHistory newQuery()
  * @method static Builder<static>|TokenExportHistory query()

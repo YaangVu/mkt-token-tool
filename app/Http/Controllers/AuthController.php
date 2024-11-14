@@ -48,6 +48,12 @@ class AuthController extends Controller
         ]);
     }
 
+    public function clientSignOut(Request $request)
+    {
+        // Revoke the user's token
+        $request->user()->currentAccessToken()->delete();
+    }
+
     public function clientSignUp(Request $request)
     {
         $validatedData = $request->validate([

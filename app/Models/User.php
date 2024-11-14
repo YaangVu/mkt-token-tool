@@ -26,7 +26,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -42,14 +42,14 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read Collection<int, \App\Models\Role> $roles
+ * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
- * @property-read \App\Models\Team|null $team
- * @property-read Collection<int, \App\Models\Team> $teams
+ * @property-read Team|null $team
+ * @property-read Collection<int, Team> $teams
  * @property-read int|null $teams_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
+ * @method static UserFactory factory($count = null, $state = [])
  * @method static Builder<static>|User newModelQuery()
  * @method static Builder<static>|User newQuery()
  * @method static Builder<static>|User permission($permissions, $without = false)

@@ -15,6 +15,6 @@ class PermissionSeeder extends Seeder
     {
         // Run command: php artisan permissions:sync -H
         // This will sync the permissions with the roles
-        Artisan::call('permissions:sync', ['-H' => true, '-Y' => true]);
+        Artisan::call('permissions:sync', ['-HY' => true]);
     }
 }

@@ -13,10 +13,18 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/client/login', [AuthController::class, 'clientSignIn']);
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => ['auth:sanctum', \App\Http\Middleware\TeamMiddleware::class]], function () {
     Route::post('/client/download/kernel', [FileDownloadController::class, 'downloadKernel']);
 
     Route::get('/client/skus', [SkuController::class, 'getList']);
+    Route::get('/client/skus-has-tokens', [SkuController::class, 'getListSkusHasTokens']);
+    Route::get('/client/skus/product-id/{productId}', [SkuController::class, 'getSkuByProductId']);
 
-    Route::post('/client/tokens', [TokenController::class, 'addToken']);
+    Route::post('/client/tokens', [TokenController::class, 'store']);
+
+
+});
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('/client/logout', [AuthController::class, 'clientSignOut']);
 });

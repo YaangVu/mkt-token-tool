@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Database\Factories\TokenFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,11 +26,11 @@ use Illuminate\Support\Carbon;
  * @property int $sku_id
  * @property int|null $team_id
  * @property int|null $export_history_id
- * @property-read \App\Models\User $owner
- * @property-read \App\Models\Sku $sku
- * @property-read \App\Models\Team|null $team
- * @property-read \App\Models\User $user
- * @method static \Database\Factories\TokenFactory factory($count = null, $state = [])
+ * @property-read User $owner
+ * @property-read Sku $sku
+ * @property-read Team|null $team
+ * @property-read User $user
+ * @method static TokenFactory factory($count = null, $state = [])
  * @method static Builder<static>|Token newModelQuery()
  * @method static Builder<static>|Token newQuery()
  * @method static Builder<static>|Token query()
@@ -75,5 +77,13 @@ class Token extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    protected function originalJson(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => json_decode($this->original_json, true),
+            set: fn($value) => $this->original_json = json_encode($value),
+        );
     }
 }

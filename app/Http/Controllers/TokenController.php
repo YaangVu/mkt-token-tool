@@ -8,19 +8,13 @@ use Illuminate\Http\Request;
 
 class TokenController extends Controller
 {
-    public function addToken(Request $request)
+    public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'mOriginalJson' => 'required',
-//            'mOriginalJson.packageName' => 'required|string',
-//            'mOriginalJson.productId' => 'required|string',
-//            'mOriginalJson.purchaseTime' => 'required|integer',
-//            'mOriginalJson.purchaseState' => 'required|integer',
-            'mOriginalJson.purchaseToken' => 'required|string',
-//            'mOriginalJson.acknowledged' => 'required|boolean',
-            'mSignature' => 'required|string',
-            'orderId' => 'required|string',
-            'skuName' => 'required|string',
+            'original_json' => 'required',
+            'purchase_token' => 'required|string',
+            'signature' => 'required|string',
+            'order_id' => 'required|string',
             'sku' => 'required|string',
         ]);
 
@@ -35,18 +29,11 @@ class TokenController extends Controller
         }
 
         $token = Token::create([
-            'order_id' => $validatedData['mOriginalJson']['orderId'],
-            'sku_name' => $validatedData['mOriginalJson']['skuName'],
-            'product_id' => $validatedData['sku'],
-            'purchase_time' => $validatedData['mOriginalJson']['purchaseTime'],
-            'purchase_state' => $validatedData['mOriginalJson']['purchaseState'],
-            'purchase_token' => $validatedData['mOriginalJson']['purchaseToken'],
-            'acknowledged' => $validatedData['mOriginalJson']['acknowledged'],
-            'signature' => $validatedData['mSignature'],
-            'original_json' => json_encode($validatedData['mOriginalJson']),
-            'sku' => $validatedData['sku'],
-            'client_id' => 1, // TODO: Replace with actual client ID
+            'order_id' => $validatedData['order_id'],
             'sku_id' => $sku->id,
+            'purchase_token' => $validatedData['purchase_token'],
+            'signature' => $validatedData['signature'],
+            'original_json' => $validatedData['original_json'],
             'owner_id' => auth()->id(),
             'created_by' => auth()->id(),
         ]);

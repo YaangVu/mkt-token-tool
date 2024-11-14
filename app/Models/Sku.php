@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\SkuFactory;
 use Eloquent;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,11 +27,11 @@ use Illuminate\Support\Carbon;
  * @property string|null $type
  * @property int $created_by
  * @property int|null $team_id
- * @property-read \App\Models\Team|null $team
- * @property-read Collection<int, \App\Models\Token> $tokens
+ * @property-read Team|null $team
+ * @property-read Collection<int, Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\SkuFactory factory($count = null, $state = [])
+ * @property-read User|null $user
+ * @method static SkuFactory factory($count = null, $state = [])
  * @method static Builder<static>|Sku newModelQuery()
  * @method static Builder<static>|Sku newQuery()
  * @method static Builder<static>|Sku query()
