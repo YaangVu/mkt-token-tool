@@ -91,4 +91,9 @@ class Sku extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function dumpableTokens(): HasMany
+    {
+        return $this->hasMany(Token::class)->whereNull('dump_history_id');
+    }
 }

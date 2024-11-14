@@ -21,8 +21,8 @@ class SkuController extends Controller
     {
         return response()->json(
             Sku::whereTeamId(Filament::getTenant()->id)
-                ->whereHas('tokens')
-                ->withCount('tokens')
+                ->whereHas('dumpableTokens')
+                ->withCount('dumpableTokens')
                 ->paginate($request->input('limit', 10))
         );
     }
