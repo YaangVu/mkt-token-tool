@@ -15,6 +15,8 @@ php artisan optimize
 
 if [ "$role" = "app" ]; then
     echo "App is running..."
+    php artisan storage:link
+    php artisan filament:optimize
     php artisan serve --host=0.0.0.0
 
 elif [ "$role" = "queue" ]; then

@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Package;
+use App\Models\Sku;
 use Illuminate\Database\Seeder;
 
-class PackageSeeder extends Seeder
+class SkuSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Package::factory(10)->create();
+        Sku::factory(10)->create();
     }
 }

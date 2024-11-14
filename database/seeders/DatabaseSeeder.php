@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Package;
+use App\Models\Sku;
 use App\Models\Token;
 use Illuminate\Database\Seeder;
 
@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             TeamSeeder::class,
-            PackageSeeder::class,
+            SkuSeeder::class,
             TokenSeeder::class
         ]);
     }

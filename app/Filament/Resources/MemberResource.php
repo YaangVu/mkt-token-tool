@@ -25,20 +25,6 @@ class MemberResource extends Resource
         return auth()->user()->canAny(['view-any Member', 'view Member']);
     }
 
-//    public static function getEloquentQuery(): Builder
-//    {
-//        $query = User::query();
-//
-//        if (
-//            static::isScopedToTenant() &&
-//            ($tenant = Filament::getTenant())
-//        ) {
-//            static::scopeEloquentQueryToTenant($query, $tenant);
-//        }
-//
-//        return $query;
-//    }
-
     public static function getNavigationLabel(): string
     {
         return 'Quản lý thành viên';
@@ -109,7 +95,8 @@ class MemberResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('id', 'desc');
     }
 
     public static function getRelations(): array

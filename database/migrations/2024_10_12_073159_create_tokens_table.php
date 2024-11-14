@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('order_id')->nullable();
             $table->foreignId('owner_id')->constrained()->on('users')->onDelete('cascade');
             $table->foreignId('created_by')->constrained()->on('users')->onDelete('cascade');
-            $table->foreignId('package_id')->constrained()->onDelete('cascade');
+            $table->foreignId('sku_id')->constrained()->onDelete('cascade');
             $table->bigInteger('team_id')->nullable();
         });
     }

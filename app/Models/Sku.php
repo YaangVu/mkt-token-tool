@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Factories\PackageFactory;
 use Eloquent;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,42 +18,40 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property string|null $title
- * @property string|null $name
+ * @property string|null $game_name
+ * @property string|null $package_name
  * @property string $price
  * @property string|null $price_currency_code
  * @property string $product_id
- * @property string|null $game_name
  * @property string|null $type
  * @property int $created_by
  * @property int|null $team_id
- * @property-read Team|null $team
- * @property-read Collection<int, Token> $tokens
+ * @property-read \App\Models\Team|null $team
+ * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read User|null $user
- * @method static PackageFactory factory($count = null, $state = [])
- * @method static Builder<static>|Package newModelQuery()
- * @method static Builder<static>|Package newQuery()
- * @method static Builder<static>|Package query()
- * @method static Builder<static>|Package whereCreatedAt($value)
- * @method static Builder<static>|Package whereCreatedBy($value)
- * @method static Builder<static>|Package whereGameName($value)
- * @method static Builder<static>|Package whereId($value)
- * @method static Builder<static>|Package whereName($value)
- * @method static Builder<static>|Package wherePrice($value)
- * @method static Builder<static>|Package wherePriceCurrencyCode($value)
- * @method static Builder<static>|Package whereProductId($value)
- * @method static Builder<static>|Package whereTeamId($value)
- * @method static Builder<static>|Package whereTitle($value)
- * @method static Builder<static>|Package whereType($value)
- * @method static Builder<static>|Package whereUpdatedAt($value)
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\SkuFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Sku newModelQuery()
+ * @method static Builder<static>|Sku newQuery()
+ * @method static Builder<static>|Sku query()
+ * @method static Builder<static>|Sku whereCreatedAt($value)
+ * @method static Builder<static>|Sku whereCreatedBy($value)
+ * @method static Builder<static>|Sku whereGameName($value)
+ * @method static Builder<static>|Sku whereId($value)
+ * @method static Builder<static>|Sku wherePackageName($value)
+ * @method static Builder<static>|Sku wherePrice($value)
+ * @method static Builder<static>|Sku wherePriceCurrencyCode($value)
+ * @method static Builder<static>|Sku whereProductId($value)
+ * @method static Builder<static>|Sku whereTeamId($value)
+ * @method static Builder<static>|Sku whereType($value)
+ * @method static Builder<static>|Sku whereUpdatedAt($value)
  * @mixin Eloquent
  */
-class Package extends Model
+class Sku extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'name', 'price', 'price_currency_code', 'product_id', 'game_name', 'type', 'created_by'];
+    protected $fillable = ['package_name', 'price', 'price_currency_code', 'product_id', 'game_name', 'type', 'created_by'];
 
     public function user(): BelongsTo
     {
@@ -62,7 +59,7 @@ class Package extends Model
     }
 
     // Export tokens
-    public function exportTokens(int $quantity, Package $package): TokenExportHistory
+    public function exportTokens(int $quantity, Sku $sku): TokenExportHistory
     {
         // Get tokens that have not been exported yet
         $tokens = $this->tokens()
@@ -74,11 +71,10 @@ class Package extends Model
         // Create a new export history
         $exportHistory = TokenExportHistory::create([
             'created_by' => auth()->id(),
-            'package_id' => $package->id,
+            'sku_id' => $sku->id,
             'quantity' => $quantity,
+            'team_id' => Filament::getTenant()->id,
         ]);
-
-        $exportHistory->teams()->attach(Filament::getTenant(), ['created_at' => now(), 'updated_at' => now()]);
 
         // Update the tokens to mark them as exported
         Token::whereIn('id', $tokens->pluck('id'))->update(['export_history_id' => $exportHistory->id]);

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Package;
+use App\Models\Sku;
 use App\Models\Token;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,7 +24,7 @@ class TokenFactory extends Factory
             'signature' => $this->faker->text,
             'order_id' => $this->faker->uuid,
             'owner_id' => 1,
-            'package_id' => $this->faker->numberBetween(1, 10),
+            'sku_id' => $this->faker->numberBetween(1, 10),
             'export_history_id' => null,
             'created_by' => 1,
             'team_id' => 1,

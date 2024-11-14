@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Package;
+use App\Models\Sku;
 use App\Models\Token;
 use Illuminate\Http\Request;
 
@@ -20,13 +20,13 @@ class TokenController extends Controller
 //            'mOriginalJson.acknowledged' => 'required|boolean',
             'mSignature' => 'required|string',
             'orderId' => 'required|string',
-            'packageName' => 'required|string',
+            'skuName' => 'required|string',
             'sku' => 'required|string',
         ]);
 
-        $package = Package::whereProductId($validatedData['sku'])->first();
+        $sku = Sku::whereProductId($validatedData['sku'])->first();
 
-        if (!$package) {
+        if (!$sku) {
             return response()->json([
                 'code' => 404,
                 'data' => null,
@@ -36,7 +36,7 @@ class TokenController extends Controller
 
         $token = Token::create([
             'order_id' => $validatedData['mOriginalJson']['orderId'],
-            'package_name' => $validatedData['mOriginalJson']['packageName'],
+            'sku_name' => $validatedData['mOriginalJson']['skuName'],
             'product_id' => $validatedData['sku'],
             'purchase_time' => $validatedData['mOriginalJson']['purchaseTime'],
             'purchase_state' => $validatedData['mOriginalJson']['purchaseState'],
@@ -46,7 +46,7 @@ class TokenController extends Controller
             'original_json' => json_encode($validatedData['mOriginalJson']),
             'sku' => $validatedData['sku'],
             'client_id' => 1, // TODO: Replace with actual client ID
-            'package_id' => $package->id,
+            'sku_id' => $sku->id,
             'owner_id' => auth()->id(),
             'created_by' => auth()->id(),
         ]);

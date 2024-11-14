@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Factories\TokenFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,14 +21,14 @@ use Illuminate\Support\Carbon;
  * @property string|null $order_id
  * @property int $owner_id
  * @property int $created_by
- * @property int $package_id
+ * @property int $sku_id
  * @property int|null $team_id
  * @property int|null $export_history_id
- * @property-read User $owner
- * @property-read Package $package
- * @property-read Team|null $team
- * @property-read User $user
- * @method static TokenFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User $owner
+ * @property-read \App\Models\Sku $sku
+ * @property-read \App\Models\Team|null $team
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\TokenFactory factory($count = null, $state = [])
  * @method static Builder<static>|Token newModelQuery()
  * @method static Builder<static>|Token newQuery()
  * @method static Builder<static>|Token query()
@@ -40,9 +39,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Token whereOrderId($value)
  * @method static Builder<static>|Token whereOriginalJson($value)
  * @method static Builder<static>|Token whereOwnerId($value)
- * @method static Builder<static>|Token wherePackageId($value)
  * @method static Builder<static>|Token wherePurchaseToken($value)
  * @method static Builder<static>|Token whereSignature($value)
+ * @method static Builder<static>|Token whereSkuId($value)
  * @method static Builder<static>|Token whereTeamId($value)
  * @method static Builder<static>|Token whereUpdatedAt($value)
  * @mixin Eloquent
@@ -51,16 +50,16 @@ class Token extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['purchase_token', 'original_json', 'signature', 'order_id', 'owner_id', 'package_id', 'export_history_id', 'created_by'];
+    protected $fillable = ['purchase_token', 'original_json', 'signature', 'owner_id', 'sku_id', 'export_history_id', 'created_by'];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function package(): BelongsTo
+    public function sku(): BelongsTo
     {
-        return $this->belongsTo(Package::class);
+        return $this->belongsTo(Sku::class);
     }
 
     public function isExported(): bool

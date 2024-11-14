@@ -51,20 +51,20 @@ class TokenExportHistoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->searchable()
+                    ->label('ID')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable()
                     ->sortable()
                     ->label('User'),
-                Tables\Columns\TextColumn::make('package.game_name')
+                Tables\Columns\TextColumn::make('sku.game_name')
                     ->searchable()
                     ->sortable()
                     ->label('Game'),
-                Tables\Columns\TextColumn::make('package.title')
+                Tables\Columns\TextColumn::make('sku.title')
                     ->searchable()
                     ->sortable()
-                    ->label('Package'),
+                    ->label('Sku'),
                 Tables\Columns\TextColumn::make('quantity')
                     ->searchable()
                     ->sortable()
@@ -129,7 +129,7 @@ class TokenExportHistoryResource extends Resource
             ->headerActions([
                 //
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('id', 'desc');
     }
 
     public static function form(Form $form): Form

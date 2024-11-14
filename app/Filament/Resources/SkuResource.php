@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PackageResource\Pages;
-use App\Models\Package;
+use App\Filament\Resources\SkuResource\Pages;
+use App\Models\Sku;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -11,15 +11,15 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
-class PackageResource extends Resource
+class SkuResource extends Resource
 {
-    protected static ?string $model = Package::class;
+    protected static ?string $model = Sku::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
 
     public static function can(string $action, ?Model $record = null): bool
     {
-        return auth()->user()->canAny(['view-any Package', 'view Package']);
+        return auth()->user()->canAny(['view-any Sku', 'view Sku']);
     }
 
     public static function getNavigationSort(): ?int
@@ -34,22 +34,20 @@ class PackageResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->sortable()
                     ->label('ID'),
-                Tables\Columns\TextColumn::make('game_name')
-                    ->searchable()
-                    ->sortable()
-                    ->label('Game Name'),
                 Tables\Columns\TextColumn::make('product_id')
                     ->searchable()
                     ->sortable()
                     ->label('Product ID'),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('game_name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Game Name'),
+
+                Tables\Columns\TextColumn::make('package_name')
                     ->searchable()
                     ->sortable()
                     ->label('Package Name'),
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable()
-                    ->sortable()
-                    ->label('Package Title'),
+
                 Tables\Columns\TextColumn::make('type')
                     ->searchable()
                     ->sortable()
@@ -74,7 +72,8 @@ class PackageResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()->requiresConfirmation(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('id', 'desc');
     }
 
     public static function form(Form $form): Form
@@ -89,14 +88,10 @@ class PackageResource extends Resource
                     ->label('Game Name')
                     ->required()
                     ->placeholder('Tiktok'),
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('package_name')
                     ->label('Package Name')
                     ->required()
                     ->placeholder('com.zhiliaoapp.musically'),
-                Forms\Components\TextInput::make('title')
-                    ->label('Title')
-                    ->required()
-                    ->placeholder('Package Title'),
                 Forms\Components\TextInput::make('type')
                     ->label('Type')
                     ->placeholder('700 coins (TikTok)')
@@ -129,9 +124,9 @@ class PackageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPackages::route('/'),
-            'create' => Pages\CreatePackage::route('/create'),
-            'edit' => Pages\EditPackage::route('/{record}/edit'),
+            'index' => Pages\ListSkus::route('/'),
+            'create' => Pages\CreateSku::route('/create'),
+            'edit' => Pages\EditSku::route('/{record}/edit'),
         ];
     }
 }

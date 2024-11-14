@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('packages', function (Blueprint $table) {
+        Schema::create('skus', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('title')->nullable();
-            $table->string('name')->nullable();
+            $table->string('game_name')->nullable();
+            $table->string('package_name')->nullable();
             $table->decimal('price', 10, 2);
             $table->string('price_currency_code')->default('USD')->nullable();
             $table->string('product_id')->unique();
-            $table->string('game_name')->nullable();
             $table->string('type')->nullable()->default('inapp');
             $table->foreignId('created_by')->references('id')->on('users');
             $table->bigInteger('team_id')->nullable();
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('packages');
+        Schema::dropIfExists('skus');
     }
 };

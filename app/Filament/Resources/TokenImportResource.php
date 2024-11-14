@@ -53,11 +53,11 @@ class TokenImportResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable()
-                    ->label('Package Name'),
+                    ->label('Sku Name'),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable()
-                    ->label('Package Title'),
+                    ->label('Sku Title'),
                 Tables\Columns\TextColumn::make('price')
                     ->searchable()
                     ->sortable()
@@ -86,17 +86,17 @@ class TokenImportResource extends Resource
                     ->icon('heroicon-o-cloud-arrow-down')
                     ->requiresConfirmation()
                     ->fillForm(fn(TokenImport $import): array => [
-                        'package_id' => $import->id,
+                        'sku_id' => $import->id,
                         'game_name' => $import->game_name,
                         'price' => $import->price,
                         'name' => $import->name,
                         'remaining_tokens' => $import->tokens()->whereNull('export_history_id')->count(),
                     ])
                     ->form([
-                        TextInput::make('package_id')
+                        TextInput::make('sku_id')
                             ->hidden(),
                         TextInput::make('name')
-                            ->label('Package Name')
+                            ->label('Sku Name')
                             ->disabled(),
                         TextInput::make('price')
                             ->label('Price')
@@ -109,8 +109,8 @@ class TokenImportResource extends Resource
                             ->numeric()
                             ->maxValue(fn($get) => $get('remaining_tokens')),
                     ])
-                    ->action(function (array $data, TokenImport $package) {
-                        $package->exportTokens($data['quantity_tokens'], $package);
+                    ->action(function (array $data, TokenImport $sku) {
+                        $sku->exportTokens($data['quantity_tokens'], $sku);
                         return Notification::make()
                             ->title($data['quantity_tokens'] . ' tokens were exported successfully')
                             ->success()
@@ -126,7 +126,7 @@ class TokenImportResource extends Resource
             ->headerActions([
                 //
             ])
-            ->defaultSort('created_at', 'desc')
+            ->defaultSort('id', 'desc')
             ->modifyQueryUsing(function (Builder $query) {
                 $query->whereHas('tokens');
             });

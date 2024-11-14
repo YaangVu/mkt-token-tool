@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Package;
+use App\Models\Sku;
 use App\Models\Token;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -42,8 +42,8 @@ readonly class TokenExport implements FromCollection, WithHeadings, WithMapping
     public function map($row): array
     {
         return [
-            $row->package->game_name,
-            $row->package->product_id,
+            $row->sku->game_name,
+            $row->sku->product_id,
             $row->purchase_token,
             $row->created_at,
         ];

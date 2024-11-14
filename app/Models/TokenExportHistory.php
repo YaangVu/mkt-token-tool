@@ -11,44 +11,44 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property int $created_by
- * @property int $package_id
+ * @property int $sku_id
  * @property int $quantity
  * @property int|null $team_id
- * @property-read Package $package
- * @property-read Team|null $team
- * @property-read Collection<int, Token> $tokens
+ * @property-read \App\Models\Sku $sku
+ * @property-read \App\Models\Team|null $team
+ * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
- * @property-read User|null $user
+ * @property-read \App\Models\User|null $user
  * @method static Builder<static>|TokenExportHistory newModelQuery()
  * @method static Builder<static>|TokenExportHistory newQuery()
  * @method static Builder<static>|TokenExportHistory query()
  * @method static Builder<static>|TokenExportHistory whereCreatedAt($value)
  * @method static Builder<static>|TokenExportHistory whereCreatedBy($value)
  * @method static Builder<static>|TokenExportHistory whereId($value)
- * @method static Builder<static>|TokenExportHistory wherePackageId($value)
  * @method static Builder<static>|TokenExportHistory whereQuantity($value)
+ * @method static Builder<static>|TokenExportHistory whereSkuId($value)
  * @method static Builder<static>|TokenExportHistory whereTeamId($value)
  * @method static Builder<static>|TokenExportHistory whereUpdatedAt($value)
  * @mixin Eloquent
  */
 class TokenExportHistory extends Model
 {
-    protected $fillable = ['created_by', 'package_id', 'quantity'];
+    protected $fillable = ['created_by', 'sku_id', 'quantity', 'team_id'];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function package(): BelongsTo
+    public function sku(): BelongsTo
     {
-        return $this->belongsTo(Package::class);
+        return $this->belongsTo(Sku::class);
     }
 
     public function tokens(): HasMany

@@ -38,10 +38,10 @@ class TokenResource extends Resource
                 Forms\Components\Hidden::make('user_id')
                     ->default(auth()->id())
                     ->required(),
-                Forms\Components\Select::make('package_id')
-                    ->label('Package')
+                Forms\Components\Select::make('sku_id')
+                    ->label('Sku')
                     ->required()
-                    ->options(\App\Models\Package::pluck('title', 'id')->toArray()),
+                    ->options(\App\Models\Sku::pluck('product_id', 'id')->toArray()),
                 Forms\Components\TextInput::make('original_json')
                     ->label('Original Json')
                     ->json()
@@ -64,22 +64,21 @@ class TokenResource extends Resource
     {
         return $table
             ->columns([
-
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('owner.username')
                     ->label('Owner')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('package.title')
-                    ->label('Package')
+                Tables\Columns\TextColumn::make('sku.product_id')
+                    ->label('Sku')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('purchase_token')
                     ->label('Token')
                     ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('export_history_id')
-                    ->label('Export History')
-                    ->sortable(),
+                    ->sortable()
             ])
             ->filters([
                 //
@@ -92,7 +91,8 @@ class TokenResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()->requiresConfirmation(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('id', 'desc');
     }
 
     public static function getRelations(): array

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\PackageResource\Pages;
+namespace App\Filament\Resources\SkuResource\Pages;
 
-use App\Filament\Resources\PackageResource;
+use App\Filament\Resources\SkuResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListPackages extends ListRecords
+class ListSkus extends ListRecords
 {
-    protected static string $resource = PackageResource::class;
+    protected static string $resource = SkuResource::class;
 
     protected function getHeaderActions(): array
     {
