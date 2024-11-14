@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Filament\Resources\TokenImportResource\Pages;
+namespace App\Filament\Resources\TokenPumpResource\Pages;
 
-use App\Filament\Resources\TokenImportResource;
+use App\Filament\Resources\TokenPumpResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 
-class EditTokenImport extends EditRecord
+class EditTokenPump extends EditRecord
 {
-    protected static string $resource = TokenImportResource::class;
+    protected static string $resource = TokenPumpResource::class;
 
     public static function can(string $action, ?Model $record = null): bool
     {
-        return auth()->user()->can(['update TokenImport']);
+        return auth()->user()->can(['update TokenPump']);
     }
 
     protected function getHeaderActions(): array

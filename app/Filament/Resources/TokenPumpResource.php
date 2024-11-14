@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TokenImportResource\Pages;
-use App\Models\TokenImport;
+use App\Filament\Resources\TokenPumpResource\Pages;
+use App\Models\TokenPump;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -13,15 +13,15 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class TokenImportResource extends Resource
+class TokenPumpResource extends Resource
 {
-    protected static ?string $model = TokenImport::class;
+    protected static ?string $model = TokenPump::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-up-on-square-stack';
 
     public static function can(string $action, ?Model $record = null): bool
     {
-        return auth()->user()->canAny(['view-any TokenImport', 'view TokenImport']);
+        return auth()->user()->canAny(['view-any TokenPump', 'view TokenPump']);
     }
 
     public static function getNavigationLabel(): string
@@ -85,7 +85,7 @@ class TokenImportResource extends Resource
                     ->label('Export Tokens')
                     ->icon('heroicon-o-cloud-arrow-down')
                     ->requiresConfirmation()
-                    ->fillForm(fn(TokenImport $import): array => [
+                    ->fillForm(fn(TokenPump $import): array => [
                         'sku_id' => $import->id,
                         'game_name' => $import->game_name,
                         'price' => $import->price,
@@ -109,7 +109,7 @@ class TokenImportResource extends Resource
                             ->numeric()
                             ->maxValue(fn($get) => $get('remaining_tokens')),
                     ])
-                    ->action(function (array $data, TokenImport $sku) {
+                    ->action(function (array $data, TokenPump $sku) {
                         $sku->exportTokens($data['quantity_tokens'], $sku);
                         return Notification::make()
                             ->title($data['quantity_tokens'] . ' tokens were exported successfully')
@@ -151,7 +151,7 @@ class TokenImportResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTokenImports::route('/')
+            'index' => Pages\ListTokenPumps::route('/')
         ];
     }
 }

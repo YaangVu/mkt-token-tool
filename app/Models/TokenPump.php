@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -26,23 +26,23 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
  * @property-read \App\Models\User|null $user
- * @method static Builder<static>|TokenImport newModelQuery()
- * @method static Builder<static>|TokenImport newQuery()
- * @method static Builder<static>|TokenImport query()
- * @method static Builder<static>|TokenImport whereCreatedAt($value)
- * @method static Builder<static>|TokenImport whereCreatedBy($value)
- * @method static Builder<static>|TokenImport whereGameName($value)
- * @method static Builder<static>|TokenImport whereId($value)
- * @method static Builder<static>|TokenImport wherePackageName($value)
- * @method static Builder<static>|TokenImport wherePrice($value)
- * @method static Builder<static>|TokenImport wherePriceCurrencyCode($value)
- * @method static Builder<static>|TokenImport whereProductId($value)
- * @method static Builder<static>|TokenImport whereTeamId($value)
- * @method static Builder<static>|TokenImport whereType($value)
- * @method static Builder<static>|TokenImport whereUpdatedAt($value)
+ * @method static Builder<static>|TokenPump newModelQuery()
+ * @method static Builder<static>|TokenPump newQuery()
+ * @method static Builder<static>|TokenPump query()
+ * @method static Builder<static>|TokenPump whereCreatedAt($value)
+ * @method static Builder<static>|TokenPump whereCreatedBy($value)
+ * @method static Builder<static>|TokenPump whereGameName($value)
+ * @method static Builder<static>|TokenPump whereId($value)
+ * @method static Builder<static>|TokenPump wherePackageName($value)
+ * @method static Builder<static>|TokenPump wherePrice($value)
+ * @method static Builder<static>|TokenPump wherePriceCurrencyCode($value)
+ * @method static Builder<static>|TokenPump whereProductId($value)
+ * @method static Builder<static>|TokenPump whereTeamId($value)
+ * @method static Builder<static>|TokenPump whereType($value)
+ * @method static Builder<static>|TokenPump whereUpdatedAt($value)
  * @mixin Eloquent
  */
-class TokenImport extends Sku
+class TokenPump extends Sku
 {
     protected $table = 'skus';
 
