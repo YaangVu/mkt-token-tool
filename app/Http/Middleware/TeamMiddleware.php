@@ -26,6 +26,7 @@ class TeamMiddleware
 
         // Set tenant team for current user by team_id
         Filament::setTenant(Team::find($teamIdRequest), true);
+        setPermissionsTeamId($teamIdRequest);
 
         return $next($request);
     }

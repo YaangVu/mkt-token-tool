@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\TeamMiddleware;
 use App\Models\Sku;
 use Filament\Facades\Filament;
 use Illuminate\Http\Request;
@@ -13,7 +12,8 @@ class SkuController extends Controller
     {
         return response()->json(
             Sku::whereTeamId(Filament::getTenant()->id)
-                ->paginate($request->input('limit', 10))
+                ->when($request->input('package_name'), fn($query, $packageName) => $query->wherePackageName($packageName))
+                ->paginate($request->input('limit', 20))
         );
     }
 
@@ -21,9 +21,10 @@ class SkuController extends Controller
     {
         return response()->json(
             Sku::whereTeamId(Filament::getTenant()->id)
+                ->when($request->input('package_name'), fn($query, $packageName) => $query->wherePackageName($packageName))
                 ->whereHas('dumpableTokens')
                 ->withCount('dumpableTokens')
-                ->paginate($request->input('limit', 10))
+                ->paginate($request->input('limit', 20))
         );
     }
 

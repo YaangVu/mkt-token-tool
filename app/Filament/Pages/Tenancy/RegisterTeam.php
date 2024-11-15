@@ -38,12 +38,13 @@ class RegisterTeam extends RegisterTenant
          */
         $team = Team::create([...$data, ...['created_by' => auth()->user()->id]]);
 
-        // Attach the current user to the team as an admin
-        auth()->user()->teams()->attach(auth()->id(), ['team_id' => $team->id, 'role_id' => Role::whereName(DefaultRoles::TEAM_ADMIN)->first()->id]);
+        Role::whereName(DefaultRoles::TEAM_ADMIN)->each(function (Role $role) use ($team) {
+            // Attach the role to the current user
+            $role->users()->attach(auth()->id(), ['team_id' => $team->id]);
 
-        // Attach TeamAdmin role to the current user
-        Role::whereName(DefaultRoles::TEAM_ADMIN)->first()->users()->attach(auth()->user(), ['team_id' => $team->id]);
-
+            // Attach the current user to the team
+            auth()->user()->teams()->attach($team->id, ['role_id' => $role->id]);
+        });
 
         return $team;
     }

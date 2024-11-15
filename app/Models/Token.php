@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Crypt;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -24,7 +25,8 @@ use Illuminate\Support\Carbon;
  * @property int $created_by
  * @property int $sku_id
  * @property int|null $team_id
- * @property int|null $export_history_id
+ * @property string $status
+ * @property int|null $dump_history_id
  * @property-read \App\Models\User $owner
  * @property-read \App\Models\Sku $sku
  * @property-read \App\Models\Team|null $team
@@ -43,6 +45,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Token wherePurchaseToken($value)
  * @method static Builder<static>|Token whereSignature($value)
  * @method static Builder<static>|Token whereSkuId($value)
+ * @method static Builder<static>|Token whereStatus($value)
  * @method static Builder<static>|Token whereTeamId($value)
  * @method static Builder<static>|Token whereUpdatedAt($value)
  * @mixin Eloquent
@@ -51,7 +54,7 @@ class Token extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['purchase_token', 'original_json', 'signature', 'owner_id', 'sku_id', 'dump_history_id', 'created_by', 'order_id', 'team_id'];
+    protected $fillable = ['purchase_token', 'original_json', 'signature', 'owner_id', 'sku_id', 'status', 'dump_history_id', 'created_by', 'order_id', 'team_id'];
 
     public function user(): BelongsTo
     {
@@ -76,6 +79,13 @@ class Token extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function purchaseToken(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Crypt::encrypt($value),
+        );
     }
 
     protected function originalJson(): Attribute

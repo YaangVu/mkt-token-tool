@@ -14,17 +14,12 @@ class TeamSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::first();
-        $team = Team::create([
-            'name' => "$user->name's Team",
+         Team::create([
+            'name' => "Admin's Team",
             'is_active' => true,
             'activated_at' => now(),
             'created_by' => null,
-        ]);
-        TeamUserSchema::create([
-            'team_id' => $team->id,
-            'user_id' => $user->id,
-            'role_id' => 1,
+            'coin' => 1000000,
         ]);
     }
 }

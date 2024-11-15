@@ -65,13 +65,13 @@ class TokenPumpResource extends Resource
                     ->prefix('$ ')
                     ->alignEnd(),
 
-                Tables\Columns\TextColumn::make('tokens_count')
+                Tables\Columns\TextColumn::make('dumpable_tokens_count')
                     ->label('Quantity')
-                    ->counts('tokens')
+                    ->counts('dumpableTokens')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total')
                     ->label('Thành tiền')
-                    ->getStateUsing(fn($record) => $record->price * $record->tokens_count)
+                    ->getStateUsing(fn($record) => $record->price * $record->dumpable_tokens_count)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price_currency_code')
                     ->searchable()

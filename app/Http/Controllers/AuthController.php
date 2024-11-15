@@ -36,13 +36,9 @@ class AuthController extends Controller
 
         return response()->json([
             'code' => 200,
-            'data' => [
-                'username' => $user->username,
-                'token' => $token,
-                'teams' => $user->teams->select(['id', 'name']),
-                'childStatus' => 0, // Example value, adjust as needed
-                'versions' => "1.0", // Example value, adjust as needed
-            ],
+            'username' => $user->username,
+            'token' => $token,
+            'team_id' => $user->teams()->orderBy('created_at')->first()->id, // Get the first Team the User is assigned to
             'message' => 'Login successful',
             'serviceTime' => Carbon::now()->toDateTimeString(),
         ]);

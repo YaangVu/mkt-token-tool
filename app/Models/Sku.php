@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\TokenStatuses;
 use Eloquent;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,8 +28,6 @@ use Illuminate\Support\Carbon;
  * @property int $created_by
  * @property int|null $team_id
  * @property-read \App\Models\Team|null $team
- * @property-read Collection<int, \App\Models\Token> $tokens
- * @property-read int|null $tokens_count
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\SkuFactory factory($count = null, $state = [])
  * @method static Builder<static>|Sku newModelQuery()
@@ -53,12 +52,6 @@ class Sku extends Model
 
     protected $fillable = ['package_name', 'price', 'price_currency_code', 'product_id', 'game_name', 'type', 'created_by'];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    // Export tokens
     public function dumpTokens(int $quantity): TokenDumpHistory
     {
         // Get tokens that have not been exported yet
@@ -77,14 +70,24 @@ class Sku extends Model
         ]);
 
         // Update the tokens to mark them as exported
-        Token::whereIn('id', $tokens->pluck('id'))->update(['dump_history_id' => $dumpHistory->id]);
+        Token::whereIn('id', $tokens->pluck('id'))->update(['dump_history_id' => $dumpHistory->id, 'status' => TokenStatuses::DUMPED]);
+
+        // Decrease the quota of the team
+        Filament::getTenant()->decrement('coin', $quantity);
 
         return $dumpHistory;
     }
 
     public function tokens(): HasMany
     {
-        return $this->hasMany(Token::class);
+        $relationship = $this->hasMany(Token::class)->whereTeamId(Filament::getTenant()->id);
+
+        return auth()->user()->can('viewAny', TokenDumpHistory::class) ? $relationship : $relationship->whereOwnerId(auth()->id());
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function team(): BelongsTo
@@ -94,6 +97,6 @@ class Sku extends Model
 
     public function dumpableTokens(): HasMany
     {
-        return $this->hasMany(Token::class)->whereNull('dump_history_id');
+        return $this->tokens()->whereNull('dump_history_id')->whereStatus(TokenStatuses::NEW);
     }
 }

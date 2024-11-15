@@ -108,7 +108,7 @@ class User extends Authenticatable implements HasTenants, FilamentUser
 
     public function teams(): BelongsToMany
     {
-        return $this->belongsToMany(Team::class, table: 'team_user_schemas');
+        return $this->belongsToMany(Team::class, table: 'team_user_schemas', foreignPivotKey: 'user_id', relatedPivotKey: 'team_id');
     }
 
     public function canAccessPanel(Panel $panel): bool

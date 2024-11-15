@@ -4,26 +4,18 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\MemberResource\Pages;
 use App\Models\Member;
-use App\Models\User;
 use Exception;
-use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class MemberResource extends Resource
 {
     protected static ?string $model = Member::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-       public static function can(string $action, ?Model $record = null): bool
-    {
-        return auth()->user()->canAny(['view-any Member', 'view Member']);
-    }
 
     public static function getNavigationLabel(): string
     {
@@ -86,17 +78,23 @@ class MemberResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->visible(fn(Model $record): bool => auth()->user()->can('update Member')),
                 Tables\Actions\DeleteAction::make('delete')
                     ->requiresConfirmation()
-                    ->icon('heroicon-o-trash'),
+                    ->icon('heroicon-o-trash')
+                    ->visible(fn(): bool => auth()->user()->can('delete Member')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->visible(fn(): bool => auth()->user()->can('delete Member')),
                 ]),
             ])
             ->defaultSort('id', 'desc');
+    }
+
+    public static function can(string $action, ?Model $record = null): bool
+    {
+        return auth()->user()->canAny(['view-any Member', 'view Member']);
     }
 
     public static function getRelations(): array

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -22,6 +22,8 @@ use Illuminate\Support\Carbon;
  * @property string|null $type
  * @property int $created_by
  * @property int|null $team_id
+ * @property-read Collection<int, \App\Models\Token> $dumpableTokens
+ * @property-read int|null $dumpable_tokens_count
  * @property-read \App\Models\Team|null $team
  * @property-read Collection<int, \App\Models\Token> $tokens
  * @property-read int|null $tokens_count
