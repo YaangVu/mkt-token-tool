@@ -48,6 +48,12 @@ class AuthController extends Controller
     {
         // Revoke the user's token
         $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Logout successful',
+            'serviceTime' => Carbon::now()->toDateTimeString(),
+        ]);
     }
 
     public function clientSignUp(Request $request)
