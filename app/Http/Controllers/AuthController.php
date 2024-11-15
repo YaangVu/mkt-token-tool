@@ -28,7 +28,7 @@ class AuthController extends Controller
             return response()->json([
                 'code' => 401,
                 'message' => 'Invalid credentials',
-                'serviceTime' => Carbon::now()->toDateTimeString(),
+                'service_time' => Carbon::now()->toDateTimeString(),
             ], 401);
         }
 
@@ -40,7 +40,7 @@ class AuthController extends Controller
             'token' => $token,
             'team_id' => $user->teams()->orderBy('created_at')->first()->id, // Get the first Team the User is assigned to
             'message' => 'Login successful',
-            'serviceTime' => Carbon::now()->toDateTimeString(),
+            'service_time' => Carbon::now()->toDateTimeString(),
         ]);
     }
 
@@ -52,7 +52,7 @@ class AuthController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Logout successful',
-            'serviceTime' => Carbon::now()->toDateTimeString(),
+            'service_time' => Carbon::now()->toDateTimeString(),
         ]);
     }
 
