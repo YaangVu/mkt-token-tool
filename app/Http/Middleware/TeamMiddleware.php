@@ -6,6 +6,7 @@ use App\Models\Team;
 use Closure;
 use Filament\Facades\Filament;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class TeamMiddleware
@@ -20,6 +21,7 @@ class TeamMiddleware
     {
         $teams = $request->user()->teams->keyBy('id')->select('name');
         $teamIdRequest = $request->header('team_id');
+        Log::info("TeamMiddleware: team_id=$teamIdRequest, current user has teams: ", $teams->all());
         if (!$teams->has($teamIdRequest)) {
             abort(403, 'Unauthorized team');
         }
