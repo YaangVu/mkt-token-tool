@@ -25,7 +25,7 @@ Route::group(['middleware' => ['auth:sanctum', TeamMiddleware::class]], function
     Route::post('/client/tokens', [TokenController::class, 'store']);
     Route::patch('/client/tokens/{id}/update-status', [TokenController::class, 'updateStatus']);
 
-    Route::post('/client/tokens/dump/{productId}', [TokenDumpHistoryController::class, 'dump']);
+    Route::post('/client/tokens/dump', [TokenDumpHistoryController::class, 'dump']);
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {

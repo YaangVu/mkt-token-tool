@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -84,14 +84,15 @@ class Token extends Model
     public function purchaseToken(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => Crypt::encrypt($value),
+            get: fn($value) => Crypt::decrypt($value),
+            set: fn($value) => Crypt::encrypt($value)
         );
     }
 
     protected function originalJson(): Attribute
     {
         return Attribute::make(
-            get: fn() => json_decode($this->original_json, true),
+            get: fn($value) => json_decode($value),
             set: fn($value) => $this->original_json = json_encode($value),
         );
     }

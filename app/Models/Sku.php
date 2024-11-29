@@ -52,7 +52,7 @@ class Sku extends Model
 
     protected $fillable = ['package_name', 'price', 'price_currency_code', 'product_id', 'game_name', 'type', 'created_by'];
 
-    public function dumpTokens(int $quantity): TokenDumpHistory
+    public function dumpTokens(int $quantity): Collection
     {
         // Get tokens that have not been exported yet
         $tokens = $this->tokens()
@@ -75,7 +75,7 @@ class Sku extends Model
         // Decrease the quota of the team
         Filament::getTenant()->decrement('coin', $quantity);
 
-        return $dumpHistory;
+        return $tokens;
     }
 
     public function tokens(): HasMany

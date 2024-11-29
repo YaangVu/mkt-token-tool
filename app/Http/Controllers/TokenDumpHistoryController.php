@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sku;
-use App\Models\Token;
 use Filament\Facades\Filament;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 
 class TokenDumpHistoryController extends Controller
 {
-    public function dump(Request $request, int|string $productId)
+    public function dump(Request $request)
     {
         // Validate the request: skuId must be an integer, number is required and positive
         $request->validate([
             'number' => 'required|integer|min:1',
+            'product_id' => 'required',
+            'package_name' => 'required',
         ]);
 
-        $sku = Sku::whereProductId($productId)->firstOrFail();
+        // Get sku by product_id and package_name
+
+        $sku = Sku::whereProductId($request->product_id)->wherePackageName($request->package_name)->firstOrFail();
 
         // Get the number of tokens to dump
         $number = $request->input('number');
@@ -40,8 +42,7 @@ class TokenDumpHistoryController extends Controller
         }
 
         // Dump tokens
-        $dump = $sku->dumpTokens($number);
-        $tokens = $dump->tokens->map(fn(Token $token) => ['id' => $token->id, 'purchase_token' => Crypt::decrypt($token->purchase_token)]);
+        $tokens = $sku->dumpTokens($number);
 
         return response()->json([
             'message' => 'Tokens dumped successfully',

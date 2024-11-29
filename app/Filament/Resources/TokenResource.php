@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Constants\DefaultRoles;
 use App\Filament\Resources\TokenResource\Pages;
+use App\Models\Sku;
 use App\Models\Token;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -42,7 +42,7 @@ class TokenResource extends Resource
                 Forms\Components\Select::make('sku_id')
                     ->label('Sku')
                     ->required()
-                    ->options(\App\Models\Sku::pluck('product_id', 'id')->toArray()),
+                    ->options(Sku::pluck('product_id', 'id')->toArray()),
                 Forms\Components\TextInput::make('original_json')
                     ->label('Original Json')
                     ->json()
@@ -80,6 +80,7 @@ class TokenResource extends Resource
                     ->label('Token')
                     ->searchable()
                     ->sortable()
+                    ->formatStateUsing(fn($state) => substr($state, 0, 20))
             ])
             ->filters([
                 //
