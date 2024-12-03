@@ -45,7 +45,7 @@ class TokenResource extends Resource
                     ->options(Sku::pluck('product_id', 'id')->toArray()),
                 Forms\Components\TextInput::make('original_json')
                     ->label('Original Json')
-                    ->json()
+                    // ->json()
                     ->placeholder('Original Json'),
                 Forms\Components\TextInput::make('signature')
                     ->label('Signature')

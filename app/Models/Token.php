@@ -89,11 +89,11 @@ class Token extends Model
         );
     }
 
-    protected function originalJson(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => json_decode($value),
-            set: fn($value) => $this->original_json = json_encode($value),
-        );
-    }
+    // protected function originalJson(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn($value) => json_decode($value),
+    //         set: fn($value) => $this->original_json = json_encode($value),
+    //     );
+    // }
 }
